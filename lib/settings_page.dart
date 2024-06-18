@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import 'main.dart';
+
 
 class Settings extends StatefulWidget {
   const Settings({super.key, required this.title});
@@ -21,26 +23,22 @@ class _Settings extends State<Settings>{
 
   @override
   Widget build(BuildContext context) {
-    return ValueListenableBuilder<ThemeMode>(
-      valueListenable: _notifier,
-      builder: (_, mode, __) {
-        return MaterialApp(
-          theme: ThemeData(
-            colorScheme: ColorScheme.fromSeed(seedColor: Colors.blue),
-            useMaterial3: true,
+    return Scaffold(
+      body: Column(
+        children: <Widget>[
+          const SizedBox(height: 30),
+          ElevatedButton(
+            onPressed: () {
+              Navigator.pushAndRemoveUntil(
+                context, MaterialPageRoute(
+                  builder: (context) => const MyHomePage(title: 'home page',)),
+                    (Route<dynamic> route) => false,
+              );
+            },
+            child: const Text('Log out'),
           ),
-          darkTheme: ThemeData.dark(),
-          themeMode: mode, // Decides which theme to show, light or dark.
-          home: Scaffold(
-            body: Center(
-              child: ElevatedButton(
-                onPressed: () => _notifier.value = mode == ThemeMode.light ? ThemeMode.dark : ThemeMode.light,
-                child: const Text('Toggle Theme'),
-              ),
-            ),
-          ),
-        );
-      },
+        ],
+      ),
     );
   }
 }

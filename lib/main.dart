@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:happy_digital_garden/other_garden_page.dart';
 
 import 'log_in_page.dart';
+import 'other_garden_page.dart';
 import 'profile_page.dart';
 import 'settings_page.dart';
 import 'sign_up_page.dart';
@@ -20,9 +20,6 @@ void main() {
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
-
-
-
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -36,22 +33,13 @@ class MyApp extends StatelessWidget {
   }
 }
 
-
-
-
 class MyHomePage extends StatefulWidget {
   const MyHomePage({super.key, required this.title});
   final String title;
 
-
-
-
   @override
   State<MyHomePage> createState() => _MyHomePageState();
 }
-
-
-
 
 class _MyHomePageState extends State<MyHomePage> {
   @override
@@ -87,7 +75,6 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 }
 
-
 class MainPage extends StatefulWidget {
   const MainPage({super.key, required this.title});
   final String title;
@@ -95,7 +82,6 @@ class MainPage extends StatefulWidget {
   @override
   State<MainPage> createState() => _MainPage();
 }
-
 
 class _MainPage extends State<MainPage> {
   NavigationRailLabelType labelType = NavigationRailLabelType.all;

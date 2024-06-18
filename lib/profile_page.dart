@@ -38,7 +38,7 @@ class _ProfileContent extends State<ProfileContent>{
             children: <Widget>[
               ClipRRect(
                 borderRadius: BorderRadius.circular(40.0),
-                child: Image.asset("../assets/images/placeholder.png"),
+                child: Image.asset("../assets/images/placeholder.jpg"),
               ),
               const SizedBox(width: 20),
               Column(
@@ -53,15 +53,6 @@ class _ProfileContent extends State<ProfileContent>{
           const SizedBox(height: 30),
           Text("Join date: $dateJoined"),
           Text('Email address: $userMail'),
-          ElevatedButton(
-            onPressed: () {
-              Navigator.pushAndRemoveUntil(
-                context, MaterialPageRoute(builder: (context) => const MyHomePage(title: 'home page',)),
-                    (Route<dynamic> route) => false,
-              );
-            },
-            child: const Text('Log out'),
-          ),
         ],
       ),
     );

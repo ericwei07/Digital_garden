@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 
 import 'main.dart';
+import 'new_garden_page.dart';
 
 
 class MyGardenContent extends StatefulWidget {
@@ -55,7 +56,7 @@ class _MyGardenContent extends State<MyGardenContent>{
           FloatingActionButton(
             onPressed: () {
               Navigator.push(
-                context, MaterialPageRoute(builder: (context) => const Dummypage(title: 'digital garden',)),
+                context, MaterialPageRoute(builder: (context) => const NewGardenPage(title: 'digital garden',)),
               );
             },
             child: const Icon(Icons.add),

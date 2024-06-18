@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:happy_digital_garden/sign_up_page.dart';
 import 'main.dart';
 
 
@@ -15,7 +16,6 @@ class LogInPage extends StatefulWidget {
 class _LogInPage extends State<LogInPage> {
   final _logIn = TextEditingController();
   final _logInPassword = TextEditingController();
-
 
   void _checkInput() {
     if (_logIn.text.isEmpty || _logInPassword.text.isEmpty) {
@@ -96,6 +96,21 @@ class _LogInPage extends State<LogInPage> {
               height: 5,
             ),
             ElevatedButton(onPressed: _checkInput, child: const Text("Log in")),
+            const SizedBox(
+              height: 5,
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                const Text("Don't have an account? click"),
+                TextButton(
+                    onPressed: () {
+                      Navigator.push(context, MaterialPageRoute(builder: (context) {return const SignUpPage(title: 'Sign Up');}));
+                    },
+                    child: const Text('Here')
+                )
+              ],
+            ),
           ],
         ),
       ),

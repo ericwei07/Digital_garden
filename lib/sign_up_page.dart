@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:happy_digital_garden/log_in_page.dart';
 
 
 import 'main.dart';
@@ -17,10 +18,20 @@ class SignUpPage extends StatefulWidget {
 class _SignUpPage extends State<SignUpPage> {
   final _signUp = TextEditingController();
   final _signUpPassword = TextEditingController();
+  final _signUpMail = TextEditingController();
+
+  validEmail(String mail) {
+    if (mail.isEmpty) {
+      return false;
+    }
+    String pattern = r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&\'*+/=?^_`{|}~-]+@[a-zA-Z0-9]+(?:\.[a-zA-Z0-9-]+)*$";
+    RegExp regExp = RegExp(pattern);
+    return regExp.hasMatch(mail);
+  }
 
 
   void _checkInput() {
-    if (_signUp.text.isEmpty || _signUpPassword.text.isEmpty) {
+    if (_signUp.text.isEmpty || _signUpPassword.text.isEmpty || !validEmail(_signUpMail.text)) {
       var emptyField = '';
       if (_signUp.text.isEmpty) {
         emptyField += 'Username';
@@ -31,7 +42,16 @@ class _SignUpPage extends State<SignUpPage> {
         }
         emptyField += 'Password';
       }
-      emptyField += ' can not be empty';
+      if (emptyField.isNotEmpty) {
+        emptyField += ' can not be empty';
+      }
+
+      if (!validEmail(_signUpMail.text)) {
+        if (emptyField != '') {
+          emptyField += ' and ';
+        }
+        emptyField += 'Email address is invalid';
+      }
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Text(emptyField),
@@ -60,10 +80,25 @@ class _SignUpPage extends State<SignUpPage> {
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
-                const Text("Username:"),
-                const SizedBox(
-                  width: 5,
+                SizedBox(
+                  width: 300,
+                  child: TextField(
+                    controller: _signUpMail,
+                    decoration: const InputDecoration(
+                        border: OutlineInputBorder(),
+                        labelText: 'Email address',
+                        hintText: 'Enter your Email here'
+                    ),
+                  ),
                 ),
+              ],
+            ),
+            const SizedBox(
+              height: 5,
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
                 SizedBox(
                   width: 300,
                   child: TextField(
@@ -82,10 +117,6 @@ class _SignUpPage extends State<SignUpPage> {
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
-                const Text("Password:"),
-                const SizedBox(
-                  width: 5,
-                ),
                 SizedBox(
                   width: 300,
                   child: TextField(
@@ -96,7 +127,7 @@ class _SignUpPage extends State<SignUpPage> {
                     decoration: const InputDecoration(
                         border: OutlineInputBorder(),
                         labelText: 'Password',
-                        hintText: 'Password'),
+                        hintText: 'Enter your Password here'),
                   ),
                 ),
               ],
@@ -105,7 +136,23 @@ class _SignUpPage extends State<SignUpPage> {
               height: 5,
             ),
             ElevatedButton(
-                onPressed: _checkInput, child: const Text("Sign up")),
+                onPressed: _checkInput, child: const Text("Sign up")
+            ),
+            const SizedBox(
+              height: 5,
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                const Text("Alreay have an account? click"),
+                TextButton(
+                    onPressed: () {
+                      Navigator.push(context, MaterialPageRoute(builder: (context) {return const LogInPage(title: 'Log in');}));
+                    },
+                    child: const Text('Here')
+                )
+              ],
+            ),
           ],
         ),
       ),
