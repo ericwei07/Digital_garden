@@ -24,19 +24,30 @@ class _NewGardenPage extends State<NewGardenPage> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             Expanded(
-              child: TextField(
-                controller: _content,
-                decoration: const InputDecoration(
-                  border: InputBorder.none,
-                  labelText: 'Write your garden here',
-                  hintText: 'Write your garden here'
+              child: Align(
+                alignment: Alignment.topLeft,
+                child: TextField(
+                  autofocus: true,
+                  textAlign: TextAlign.left,
+                  textAlignVertical: TextAlignVertical.top,
+                  controller: _content,
+                  keyboardType: TextInputType.multiline,
+                  maxLines: null,
+                  decoration: const InputDecoration(
+                      border: InputBorder.none,
+                      labelText: 'Write your garden here',
+                      hintText: 'Write your garden here'
+                  ),
                 ),
               ),
             ),
-            FloatingActionButton(
-              onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (context) {return const MainPage(title: 'Your garden');})),
-              child: const Icon(Icons.save),
-            )
+            Align(
+              alignment: Alignment.bottomRight,
+              child: FloatingActionButton(
+                onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (context) {return const MainPage(title: 'Your garden');})),
+                child: const Icon(Icons.save),
+              ),
+            ),
           ],
         ),
       ),

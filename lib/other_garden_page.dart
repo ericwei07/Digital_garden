@@ -1,22 +1,14 @@
 import 'package:flutter/material.dart';
 
-
 import 'main.dart';
-
 
 class AllGardenContent extends StatefulWidget {
   const AllGardenContent({super.key, required this.title});
   final String title;
 
-
-
-
   @override
   State<AllGardenContent> createState() => _AllGardenContent();
 }
-
-
-
 
 class _AllGardenContent extends State<AllGardenContent>{
   @override
@@ -26,24 +18,22 @@ class _AllGardenContent extends State<AllGardenContent>{
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
-          Row(
-            mainAxisAlignment: MainAxisAlignment.start,
+          const Row(
             children: <Widget>[
-              const Text('Newest garden are here'),
+              Text('Newest garden are here'),
             ],
           ),
           TextButton(
-              onPressed: () {
-                Navigator.pushAndRemoveUntil(
-                  context, MaterialPageRoute(builder: (context) => const Dummypage(title: 'home page',)),
-                      (Route<dynamic> route) => false,
-                );
-              },
-              child: const Text('garden1')
+            onPressed: () {
+              Navigator.pushAndRemoveUntil(
+                context, MaterialPageRoute(builder: (context) => const Dummypage(title: 'home page',)),
+                (Route<dynamic> route) => false,
+              );
+            },
+            child: const Text('garden1')
           ),
         ],
       ),
     );
   }
 }
-

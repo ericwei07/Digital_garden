@@ -1,19 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:happy_digital_garden/log_in_page.dart';
 
-
 import 'main.dart';
-
 
 class SignUpPage extends StatefulWidget {
   const SignUpPage({super.key, required this.title});
   final String title;
 
-
   @override
   State<SignUpPage> createState() => _SignUpPage();
 }
-
 
 class _SignUpPage extends State<SignUpPage> {
   final _signUp = TextEditingController();
@@ -28,7 +24,6 @@ class _SignUpPage extends State<SignUpPage> {
     RegExp regExp = RegExp(pattern);
     return regExp.hasMatch(mail);
   }
-
 
   void _checkInput() {
     if (_signUp.text.isEmpty || _signUpPassword.text.isEmpty || !validEmail(_signUpMail.text)) {
@@ -64,7 +59,6 @@ class _SignUpPage extends State<SignUpPage> {
       );
     }
   }
-
 
   @override
   Widget build(BuildContext context) {

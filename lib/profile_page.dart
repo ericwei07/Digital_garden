@@ -1,31 +1,18 @@
 import 'package:flutter/material.dart';
 
-
-import 'main.dart';
-
-
 class ProfileContent extends StatefulWidget {
   const ProfileContent({super.key, required this.title});
   final String title;
 
-
-
-
   @override
   State<ProfileContent> createState() => _ProfileContent();
 }
-
-
-
 
 class _ProfileContent extends State<ProfileContent>{
   var dateJoined = "01/02/2034";
   var userName = "user1";
   var userMail = 'user1@gmail.com';
   var userID = '00000001';
-
-
-
 
   @override
   Widget build(BuildContext context) {
@@ -58,4 +45,3 @@ class _ProfileContent extends State<ProfileContent>{
     );
   }
 }
-

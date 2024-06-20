@@ -7,15 +7,9 @@ import 'settings_page.dart';
 import 'sign_up_page.dart';
 import 'user_garden_page.dart';
 
-
-
-
 void main() {
   runApp(const MyApp());
 }
-
-
-
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
@@ -90,11 +84,11 @@ class _MainPage extends State<MainPage> {
   IndexedStack _getPage(int index) {
     return IndexedStack(
       index: index,
-      children: [
+      children: const [
         ProfileContent(title: "User profile"),
-        MyGardenContent(title: "a"),
-        AllGardenContent(title: "aa"),
-        Settings(title: "a")
+        MyGardenContent(title: "Your garden"),
+        AllGardenContent(title: "Explore other gardens"),
+        Settings(title: "Settings")
       ],
     );
   }
@@ -146,23 +140,20 @@ class _MainPage extends State<MainPage> {
   }
 }
 
-
 class Dummypage extends StatefulWidget {
   const Dummypage({super.key, required this.title});
   final String title;
 
-
   @override
   State<Dummypage> createState() => _Dummypage();
 }
-
 
 class _Dummypage extends State<Dummypage>{
 
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return const Scaffold(
       body: Column(
         children: <Widget>[
         ],

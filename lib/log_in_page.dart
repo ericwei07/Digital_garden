@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:happy_digital_garden/sign_up_page.dart';
+
+import 'sign_up_page.dart';
 import 'main.dart';
 
 
@@ -7,11 +8,9 @@ class LogInPage extends StatefulWidget {
   const LogInPage({super.key, required this.title});
   final String title;
 
-
   @override
   State<LogInPage> createState() => _LogInPage();
 }
-
 
 class _LogInPage extends State<LogInPage> {
   final _logIn = TextEditingController();
