@@ -14,25 +14,27 @@ class _AllGardenContent extends State<AllGardenContent>{
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.start,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: <Widget>[
-          const Row(
-            children: <Widget>[
-              Text('Newest garden are here'),
-            ],
-          ),
-          TextButton(
-            onPressed: () {
-              Navigator.pushAndRemoveUntil(
-                context, MaterialPageRoute(builder: (context) => const Dummypage(title: 'home page',)),
-                (Route<dynamic> route) => false,
-              );
-            },
-            child: const Text('garden1')
-          ),
-        ],
+      body: SingleChildScrollView (
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: <Widget>[
+            const Row(
+              children: <Widget>[
+                Text('Newest garden are here'),
+              ],
+            ),
+            TextButton(
+                onPressed: () {
+                  Navigator.pushAndRemoveUntil(
+                    context, MaterialPageRoute(builder: (context) => const Dummypage(title: 'home page',)),
+                        (Route<dynamic> route) => false,
+                  );
+                },
+                child: const Text('garden1')
+            ),
+          ],
+        ),
       ),
     );
   }

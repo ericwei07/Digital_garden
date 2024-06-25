@@ -67,89 +67,91 @@ class _SignUpPage extends State<SignUpPage> {
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
         title: Text(widget.title),
       ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                SizedBox(
-                  width: 300,
-                  child: TextField(
-                    controller: _signUpMail,
-                    decoration: const InputDecoration(
-                        border: OutlineInputBorder(),
-                        labelText: 'Email address',
-                        hintText: 'Enter your Email here'
+      body: SingleChildScrollView (
+        child: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  SizedBox(
+                    width: 300,
+                    child: TextField(
+                      controller: _signUpMail,
+                      decoration: const InputDecoration(
+                          border: OutlineInputBorder(),
+                          labelText: 'Email address',
+                          hintText: 'Enter your Email here'
+                      ),
                     ),
                   ),
-                ),
-              ],
-            ),
-            const SizedBox(
-              height: 5,
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                SizedBox(
-                  width: 300,
-                  child: TextField(
-                    controller: _signUp,
-                    decoration: const InputDecoration(
-                        border: OutlineInputBorder(),
-                        labelText: 'Username',
-                        hintText: 'Enter your username here'),
+                ],
+              ),
+              const SizedBox(
+                height: 5,
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  SizedBox(
+                    width: 300,
+                    child: TextField(
+                      controller: _signUp,
+                      decoration: const InputDecoration(
+                          border: OutlineInputBorder(),
+                          labelText: 'Username',
+                          hintText: 'Enter your username here'),
+                    ),
                   ),
-                ),
-              ],
-            ),
-            const SizedBox(
-              height: 5,
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                SizedBox(
-                  width: 300,
-                  child: TextField(
-                    obscureText: true,
-                    enableSuggestions: false,
-                    autocorrect: false,
-                    controller: _signUpPassword,
-                    decoration: const InputDecoration(
-                        border: OutlineInputBorder(),
-                        labelText: 'Password',
-                        hintText: 'Enter your Password here'),
+                ],
+              ),
+              const SizedBox(
+                height: 5,
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  SizedBox(
+                    width: 300,
+                    child: TextField(
+                      obscureText: true,
+                      enableSuggestions: false,
+                      autocorrect: false,
+                      controller: _signUpPassword,
+                      decoration: const InputDecoration(
+                          border: OutlineInputBorder(),
+                          labelText: 'Password',
+                          hintText: 'Enter your Password here'),
+                    ),
                   ),
-                ),
-              ],
-            ),
-            const SizedBox(
-              height: 5,
-            ),
-            ElevatedButton(
-                onPressed: _checkInput, child: const Text("Sign up")
-            ),
-            const SizedBox(
-              height: 5,
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                const Text("Alreay have an account? click"),
-                TextButton(
-                    onPressed: () {
-                      Navigator.push(context, MaterialPageRoute(builder: (context) {return const LogInPage(title: 'Log in');}));
-                    },
-                    child: const Text('Here')
-                )
-              ],
-            ),
-          ],
+                ],
+              ),
+              const SizedBox(
+                height: 5,
+              ),
+              ElevatedButton(
+                  onPressed: _checkInput, child: const Text("Sign up")
+              ),
+              const SizedBox(
+                height: 5,
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  const Text("Alreay have an account? click"),
+                  TextButton(
+                      onPressed: () {
+                        Navigator.push(context, MaterialPageRoute(builder: (context) {return const LogInPage(title: 'Log in');}));
+                      },
+                      child: const Text('Here')
+                  )
+                ],
+              ),
+            ],
+          ),
         ),
-      ),
+      )
     );
   }
 }

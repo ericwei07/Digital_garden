@@ -18,53 +18,57 @@ class _MyGardenContent extends State<MyGardenContent>{
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.start,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: <Widget>[
-          Text(
-            gardenName,
-            style: const TextStyle(
-                fontWeight: FontWeight.bold,
-                fontSize: 20.0
+      body: SingleChildScrollView (
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: <Widget>[
+            Text(
+              gardenName,
+              style: const TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 20.0
+              ),
             ),
-          ),
-          Text(gardenContent),
-          TextButton(
-              onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (context) {return const Dummypage(title: 'article');})),
-              child: Text('garden1')
-          ),
-          TextButton(
-              onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (context) {return const Dummypage(title: 'article');})),
-              child: Text('garden2')
-          ),
-          TextButton(
-              onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (context) {return const Dummypage(title: 'article');})),
-              child: Text('garden3')
-          ),
-          Align(
-            alignment: Alignment.bottomRight,
-            child: FloatingActionButton(
-              onPressed: () {
-                Navigator.push(
-                  context, MaterialPageRoute(builder: (context) => const NewGardenPage(title: 'digital garden',)),
-                );
-              },
-              child: const Icon(Icons.add),
+            Text(gardenContent),
+            TextButton(
+                onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (context) {return const Dummypage(title: 'article');})),
+                child: Text('garden1')
             ),
-          ),
-          Align(
-            alignment: Alignment.bottomRight,
-            child: FloatingActionButton(
-              onPressed: () {
-                Navigator.push(
-                  context, MaterialPageRoute(builder: (context) => const NewGardenPage(title: 'digital garden',)),
-                );
-              },
-              child: const Icon(Icons.edit),
+            TextButton(
+                onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (context) {return const Dummypage(title: 'article');})),
+                child: Text('garden2')
             ),
-          ),
-        ],
+            TextButton(
+                onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (context) {return const Dummypage(title: 'article');})),
+                child: Text('garden3')
+            ),
+            Align(
+              alignment: Alignment.bottomRight,
+              child: FloatingActionButton(
+                heroTag: null,
+                onPressed: () {
+                  Navigator.push(
+                    context, MaterialPageRoute(builder: (context) => const NewGardenPage(title: 'digital garden',)),
+                  );
+                },
+                child: const Icon(Icons.add),
+              ),
+            ),
+            Align(
+              alignment: Alignment.bottomRight,
+              child: FloatingActionButton(
+                heroTag: null,
+                onPressed: () {
+                  Navigator.push(
+                    context, MaterialPageRoute(builder: (context) => const NewGardenPage(title: 'digital garden',)),
+                  );
+                },
+                child: const Icon(Icons.edit),
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
