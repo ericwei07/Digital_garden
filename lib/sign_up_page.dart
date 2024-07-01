@@ -1,9 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
-import 'package:happy_digital_garden/log_in_page.dart';
-import 'package:crypto/crypto.dart';
-import 'dart:convert';
 
+import 'log_in_page.dart';
 import 'main.dart';
 
 final dio = Dio();
@@ -32,13 +30,42 @@ class _SignUpPage extends State<SignUpPage> {
     return regExp.hasMatch(mail);
   }
 
-  void request(name, mail, hash) async {
+  Future<void> request(name, mail, hash) async {
     Response response;
     response = await dio.post('/account/signup',
         data: {'username': name, 'email': mail, 'password': hash});
+    if (response.data["result"] == 2) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('user already exists'),
+        ),
+      );
+    } else if (response.data['result'] == 1) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('email address is used'),
+        ),
+      );
+    } else if (response.data['result'] == 3) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('email address and/or user name field is empty'),
+        ),
+      );
+    } else {
+      Navigator.pushAndRemoveUntil(
+        context,
+        MaterialPageRoute(
+            builder: (context) => const MainPage(
+              title: 'digital garden',
+            )
+        ),
+            (Route<dynamic> route) => false,
+      );
+    }
   }
 
-  void _checkInput() {
+  void _checkInput() async {
     if (_signUp.text.isEmpty ||
         _signUpPassword.text.isEmpty ||
         !validEmail(_signUpMail.text)) {
@@ -68,17 +95,7 @@ class _SignUpPage extends State<SignUpPage> {
         ),
       );
     } else {
-      var digest = sha512.convert(utf8.encode(_signUpPassword.text));
-      request(_signUp.text, _signUpMail.text, digest);
-      Navigator.pushAndRemoveUntil(
-        context,
-        MaterialPageRoute(
-          builder: (context) => const MainPage(
-            title: 'digital garden',
-          )
-        ),
-        (Route<dynamic> route) => false,
-      );
+      await request(_signUp.text, _signUpMail.text, _signUpPassword.text);
     }
   }
 
@@ -89,7 +106,7 @@ class _SignUpPage extends State<SignUpPage> {
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
         title: Text(widget.title),
       ),
-      child: Center(
+      body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[

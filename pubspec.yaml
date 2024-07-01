@@ -29,9 +29,12 @@ environment:
 # versions available, run `flutter pub outdated`.
 dependencies:
   dio: ^5.4.3+1
-  crypto: ^3.0.3
   flutter:
     sdk: flutter
+  shared_preferences: ^2.2.3
+  flutter_dotenv: ^5.1.0
+  get_it: ^7.7.0
+  dart_jsonwebtoken: ^2.14.0
 
 
   # The following adds the Cupertino Icons font to your application.
