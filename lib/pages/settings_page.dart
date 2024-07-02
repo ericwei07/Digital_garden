@@ -24,6 +24,7 @@ class _Settings extends State<Settings>{
             alignment: Alignment.center,
             child: ElevatedButton(
               onPressed: () {
+
                 Navigator.pushAndRemoveUntil(
                   context, MaterialPageRoute(
                     builder: (context) => const MyHomePage(title: 'home page',)

@@ -1,5 +1,8 @@
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
+import '../app_config.dart';
 import 'sign_up_page.dart';
 import 'main.dart';
 
@@ -15,6 +18,39 @@ class LogInPage extends StatefulWidget {
 class _LogInPage extends State<LogInPage> {
   final _logIn = TextEditingController();
   final _logInPassword = TextEditingController();
+  final dio = Dio();
+
+  Future<void> request (name, password) async {
+    dio.options.baseUrl = AppConfig.baseUrl;
+    Response response;
+    response = await dio.post('/account/login',
+        data: {'username': name, 'password': password});
+    if (response.data['result'] == 1) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('user not found'),
+        ),
+      );
+    } else if (response.data['result'] == 2) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('incorrect password or username'),
+        ),
+      );
+    } else {
+      final prefs = await SharedPreferences.getInstance();
+      await prefs.setString('baseUrl', AppConfig.baseUrl);
+      await prefs.setString('accessToken', response.data['token']);
+      Navigator.pushAndRemoveUntil(
+        context,
+        MaterialPageRoute(
+            builder: (context) => const MainPage(
+              title: 'digital garden',
+            )),
+            (Route<dynamic> route) => false,
+      );
+    }
+  }
 
   void _checkInput() {
     if (_logIn.text.isEmpty || _logInPassword.text.isEmpty) {
@@ -35,10 +71,7 @@ class _LogInPage extends State<LogInPage> {
         ),
       );
     } else {
-      Navigator.pushAndRemoveUntil(
-        context, MaterialPageRoute(builder: (context) => const MainPage(title: 'digital garden',)),
-            (Route<dynamic> route) => false,
-      );
+      request(_logIn.text, _logInPassword.text);
     }
   }
 

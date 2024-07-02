@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:happy_digital_garden/main.dart';
 import 'package:dio/dio.dart';
+
+import 'main.dart';
 
 class NewGardenPage extends StatefulWidget {
   const NewGardenPage({super.key, required this.title});

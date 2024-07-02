@@ -1,10 +1,11 @@
+import 'package:dart_jsonwebtoken/dart_jsonwebtoken.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:happy_digital_garden/app_config.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import 'log_in_page.dart';
 import 'main.dart';
-
-final dio = Dio();
 
 class SignUpPage extends StatefulWidget {
   const SignUpPage({super.key, required this.title});
@@ -20,21 +21,21 @@ class _SignUpPage extends State<SignUpPage> {
   final _signUpPassword = TextEditingController();
   final _signUpMail = TextEditingController();
 
-  validEmail(String mail) {
-    if (mail.isEmpty) {
-      return false;
-    }
-    String pattern =
-        r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&\'*+/=?^_`{|}~-]+@[a-zA-Z0-9]+(?:\.[a-zA-Z0-9-]+)*$";
-    RegExp regExp = RegExp(pattern);
-    return regExp.hasMatch(mail);
-  }
+  final Dio dio = Dio();
 
-  Future<void> request(name, mail, hash) async {
+  Future<void> request(name, mail, password) async {
+    dio.options.baseUrl = AppConfig.baseUrl;
+    // dio.interceptors.add(InterceptorsWrapper(
+    //   onRequest: (RequestOptions options, RequestInterceptorHandler handler) {
+    //     options.contentType = 'application/json';
+    //     return handler.next(options);
+    //   },
+    // ));
     Response response;
     response = await dio.post('/account/signup',
-        data: {'username': name, 'email': mail, 'password': hash});
-    if (response.data["result"] == 2) {
+        data: {'username': name, 'email': mail, 'password': password});
+    print(response.headers);
+    if (response.data['result'] == 2) {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
           content: Text('user already exists'),
@@ -53,16 +54,31 @@ class _SignUpPage extends State<SignUpPage> {
         ),
       );
     } else {
+      final prefs = await SharedPreferences.getInstance();
+      var token = response.data['token'];
+      await prefs.setString('baseUrl', AppConfig.baseUrl);
+      await prefs.setString('accessToken', token);
+
+
       Navigator.pushAndRemoveUntil(
         context,
         MaterialPageRoute(
             builder: (context) => const MainPage(
-              title: 'digital garden',
-            )
-        ),
-            (Route<dynamic> route) => false,
+                  title: 'digital garden',
+                )),
+        (Route<dynamic> route) => false,
       );
     }
+  }
+
+  validEmail(String mail) {
+    if (mail.isEmpty) {
+      return false;
+    }
+    String pattern =
+        r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&\'*+/=?^_`{|}~-]+@[a-zA-Z0-9]+(?:\.[a-zA-Z0-9-]+)*$";
+    RegExp regExp = RegExp(pattern);
+    return regExp.hasMatch(mail);
   }
 
   void _checkInput() async {

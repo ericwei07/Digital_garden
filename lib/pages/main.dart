@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 import 'log_in_page.dart';
 import 'other_garden_page.dart';
@@ -7,8 +8,9 @@ import 'settings_page.dart';
 import 'sign_up_page.dart';
 import 'user_garden_page.dart';
 
-void main() {
+void main() async {
   runApp(const MyApp());
+  await dotenv.load(fileName: '.env');
 }
 
 class MyApp extends StatelessWidget {
