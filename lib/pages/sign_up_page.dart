@@ -24,16 +24,9 @@ class _SignUpPage extends State<SignUpPage> {
 
   Future<void> request(name, mail, password) async {
     dio.options.baseUrl = AppConfig.baseUrl;
-    // dio.interceptors.add(InterceptorsWrapper(
-    //   onRequest: (RequestOptions options, RequestInterceptorHandler handler) {
-    //     options.contentType = 'application/json';
-    //     return handler.next(options);
-    //   },
-    // ));
     Response response;
     response = await dio.post('/account/signup',
         data: {'username': name, 'email': mail, 'password': password});
-    print(response.headers);
     if (response.data['result'] == 2) {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(

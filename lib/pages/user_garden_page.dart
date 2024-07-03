@@ -1,11 +1,10 @@
-import 'package:flutter/material.dart';
-import 'package:dio/dio.dart';
-import 'package:dart_jsonwebtoken/dart_jsonwebtoken.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import 'dart:async';
 
+import 'package:flutter/material.dart';
 
 import 'main.dart';
 import 'new_garden_page.dart';
+import 'user_garden_page_controller.dart';
 
 class MyGardenContent extends StatefulWidget {
   const MyGardenContent({super.key, required this.title});
@@ -15,21 +14,31 @@ class MyGardenContent extends StatefulWidget {
   State<MyGardenContent> createState() => _MyGardenContent();
 }
 
-class _MyGardenContent extends State<MyGardenContent>{
-  final dio = Dio();
+class _MyGardenContent extends State<MyGardenContent> {
+  late UserGardenPageController _userGardenPageController;
+  @override
+  void initState() {
+    super.initState();
+    _userGardenPageController = UserGardenPageController();
+  }
 
-  String username = "2";
-  Future getGardenList() async {
-    final prefs = await SharedPreferences.getInstance();
-    final token = prefs.getString('token');
-    final id = 1;
-    final response = await dio.get('/article/list?id=$id');
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    loadPage();
+  }
+
+  Future loadPage() async {
+    await _userGardenPageController.getGardenList(context);
+    setState(() {});
   }
 
   @override
   Widget build(BuildContext context) {
-    var gardenName = "$username's garden";
-    var gardenContent = "this is $username's garden";
+    final username = _userGardenPageController.result['username'];
+    final articles = _userGardenPageController.result['content'];
+    final gardenName = "$username's garden";
+    final gardenContent = "this is $username's garden";
     return Scaffold(
       body: SingleChildScrollView (
         child: Column(
@@ -55,22 +64,6 @@ class _MyGardenContent extends State<MyGardenContent>{
             TextButton(
                 onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (context) {return const Dummypage(title: 'article');})),
                 child: Text('garden3')
-            ),
-            TextButton(
-                onPressed: getGardenList,
-                child: Text('aaaaaaaaaaaaaaaa')
-            ),
-            Align(
-              alignment: Alignment.bottomRight,
-              child: FloatingActionButton(
-                heroTag: null,
-                onPressed: () {
-                  Navigator.push(
-                    context, MaterialPageRoute(builder: (context) => const NewGardenPage(title: 'digital garden',)),
-                  );
-                },
-                child: const Icon(Icons.add),
-              ),
             ),
             Align(
               alignment: Alignment.bottomRight,

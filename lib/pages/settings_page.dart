@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import 'main.dart';
 
@@ -12,7 +13,16 @@ class Settings extends StatefulWidget {
 }
 
 class _Settings extends State<Settings>{
-
+  Future<void> signOut() async {
+    var prefs = await SharedPreferences.getInstance();
+    await prefs.remove("accessToken");
+    Navigator.pushAndRemoveUntil(
+      context, MaterialPageRoute(
+        builder: (context) => const MyHomePage(title: 'home page',)
+    ),
+          (Route<dynamic> route) => false,
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -24,13 +34,7 @@ class _Settings extends State<Settings>{
             alignment: Alignment.center,
             child: ElevatedButton(
               onPressed: () {
-
-                Navigator.pushAndRemoveUntil(
-                  context, MaterialPageRoute(
-                    builder: (context) => const MyHomePage(title: 'home page',)
-                ),
-                      (Route<dynamic> route) => false,
-                );
+                signOut();
               },
               child: const Text('Log out'),
             ),

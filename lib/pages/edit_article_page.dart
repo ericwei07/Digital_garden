@@ -4,54 +4,45 @@ import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../app_config.dart';
+import 'article_page_controller.dart';
 import 'main.dart';
 
-class NewGardenPage extends StatefulWidget {
-  const NewGardenPage({super.key, required this.title});
+class EditArticlePage extends StatefulWidget {
+  const EditArticlePage({super.key, required this.title});
 
   final String title;
 
   @override
-  State<NewGardenPage> createState() => _NewGardenPage();
+  State<EditArticlePage> createState() => _EditArticlePage();
 }
 
-class _NewGardenPage extends State<NewGardenPage> {
+class _EditArticlePage extends State<EditArticlePage> {
   final _content = TextEditingController();
   final _title = TextEditingController();
-  Dio dio = Dio();
 
-  Future<void> createArticle() async {
+  Dio dio = Dio();
+  late ArticlePageController _articlePageControler;
+  @override
+  void initState() {
+    super.initState();
+    _articlePageControler = ArticlePageController();
+  }
+
+  Future<void> updateArticle() async {
     dio.options.baseUrl = AppConfig.baseUrl;
     Response response;
-    final prefs = await SharedPreferences.getInstance();
-    var token = prefs.getString('accessToken');
-    if (token == null || token == '') {
-      Navigator.pushAndRemoveUntil(
-        context, MaterialPageRoute(
-          builder: (context) => const MyHomePage(title: 'home page',)
-      ),
-            (Route<dynamic> route) => false,
-      );
-      return;
-    }
-    final jwt = JWT.decode(token);
-    final exp = jwt.payload['exp'];
-    final expiryDate = DateTime.fromMillisecondsSinceEpoch(exp * 1000);
-    final currentTime = DateTime.now();
-    if (expiryDate.difference(currentTime).inSeconds < 0) {
-      Navigator.pushAndRemoveUntil(
-        context, MaterialPageRoute(
-          builder: (context) => const MyHomePage(title: 'home page',)
-      ),
-            (Route<dynamic> route) => false,
-      );
-    };
     response = await dio.post('/article/post',
-        data: {'title': _title.text, 'content':_content.text, 'writer': jwt.payload["id"]});
+        data: {'title': _title.text, 'content':_content.text, 'id':_articlePageControler.article["id"]});
     if (response.data['result'] == 1) {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
           content: Text('title/content can not be empty'),
+        ),
+      );
+    } else if(response.data['result'] == 2) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('article id can not be empty'),
         ),
       );
     } else {
@@ -81,12 +72,16 @@ class _NewGardenPage extends State<NewGardenPage> {
         ),
       );
     } else {
-      await createArticle();
+      await updateArticle();
     }
   }
 
   @override
   Widget build(BuildContext context) {
+    final content = _articlePageControler.article['content'];
+    final title = _articlePageControler.article['title'];
+    _content.text = content;
+    _title.text = title;
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Theme
@@ -107,40 +102,36 @@ class _NewGardenPage extends State<NewGardenPage> {
                     child: SizedBox(
                       height: 50,
                       child:TextField(
-                        autofocus: true,
                         textAlign: TextAlign.left,
                         textAlignVertical: TextAlignVertical.top,
                         controller: _title,
                         keyboardType: TextInputType.multiline,
                         maxLines: null,
                         decoration: const InputDecoration(
-                            border: InputBorder.none,
-                            labelText: 'Title',
-                            hintText: 'Write the article title here'
+                          border: InputBorder.none,
+                          labelText: 'Title',
+                          hintText: 'Write the article title here'
                         ),
                       ),
                     ),
                   ),
-
                   Align(
                     alignment: Alignment.topLeft,
                     child: TextField(
-                      autofocus: true,
-                        textAlign: TextAlign.left,
-                        textAlignVertical: TextAlignVertical.top,
-                        controller: _content,
-                        keyboardType: TextInputType.multiline,
-                        maxLines: null,
-                        decoration: const InputDecoration(
-                          border: InputBorder.none,
-                          labelText: 'Write your garden here',
-                          hintText: 'Write your garden here'
-                        ),
+                      textAlign: TextAlign.left,
+                      textAlignVertical: TextAlignVertical.top,
+                      controller: _content,
+                      keyboardType: TextInputType.multiline,
+                      maxLines: null,
+                      decoration: const InputDecoration(
+                        border: InputBorder.none,
+                        labelText: 'Write your garden here',
+                        hintText: 'Write your garden here'
                       ),
                     ),
-                  ]
-                )
-
+                  ),
+                ]
+              )
             ),
             Align(
               alignment: Alignment.bottomRight,

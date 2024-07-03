@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:happy_digital_garden/pages/profile_page_controller.dart';
 
 class ProfileContent extends StatefulWidget {
   const ProfileContent({super.key, required this.title});
@@ -9,13 +10,31 @@ class ProfileContent extends StatefulWidget {
 }
 
 class _ProfileContent extends State<ProfileContent>{
-  var dateJoined = "01/02/2034";
-  var userName = "user1";
-  var userMail = 'user1@gmail.com';
-  var userID = '00000001';
+  late ProfilePageController _profilePageController;
+  @override
+  void initState() {
+    super.initState();
+    _profilePageController = ProfilePageController();
+  }
 
   @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    loadPage();
+  }
+
+  Future loadPage() async {
+    await _profilePageController.UserDetail(context);
+    setState(() {});
+  }
+
+  @override
+
   Widget build(BuildContext context) {
+    var dateJoined = _profilePageController.result["join_date"];
+    var userName = _profilePageController.result["name"];
+    var userMail = _profilePageController.result["email"];
+    var userID = _profilePageController.result["id"];
     return Scaffold(
       body: Column(
         children: <Widget>[
