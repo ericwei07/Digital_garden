@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'main.dart';
+import 'article_page.dart';
 import 'other_garden_page_controller.dart';
 
 class AllGardenContent extends StatefulWidget {
@@ -45,14 +45,19 @@ class _AllGardenContent extends State<AllGardenContent>{
                 Text('Newest garden are here'),
               ],
             ),
-            TextButton(
-                onPressed: () {
-                  Navigator.pushAndRemoveUntil(
-                    context, MaterialPageRoute(builder: (context) => const Dummypage(title: 'home page',)),
-                        (Route<dynamic> route) => false,
+            ListView.builder(
+                itemCount: articles.length,
+                itemBuilder: (context, index) {
+                  var article = articles[index];
+                  String articleTitle = article["title"];
+                  int articleId = article["article_id"];
+                  return ListTile(
+                    title: Text(articleTitle),
+                    onTap: () {
+                      Navigator.push(context,MaterialPageRoute(builder: (context) => ArticlePage(title: articleTitle, id: articleId)));
+                    },
                   );
-                },
-                child: const Text('garden1')
+                }
             ),
           ],
         ),

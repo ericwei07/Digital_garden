@@ -37,7 +37,6 @@ class ProfilePageController {
               (Route<dynamic> route) => false,
         );
       };
-      final name = jwt.payload["username"];
       final id = jwt.payload["id"];
       final response = await dio.get('/user/profile?id=$id');
       result = response.data;

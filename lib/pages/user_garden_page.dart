@@ -1,8 +1,8 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:happy_digital_garden/pages/article_page.dart';
 
-import 'main.dart';
 import 'new_garden_page.dart';
 import 'user_garden_page_controller.dart';
 
@@ -53,17 +53,19 @@ class _MyGardenContent extends State<MyGardenContent> {
               ),
             ),
             Text(gardenContent),
-            TextButton(
-                onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (context) {return const Dummypage(title: 'article');})),
-                child: Text('garden1')
-            ),
-            TextButton(
-                onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (context) {return const Dummypage(title: 'article');})),
-                child: Text('garden2')
-            ),
-            TextButton(
-                onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (context) {return const Dummypage(title: 'article');})),
-                child: Text('garden3')
+            ListView.builder(
+              itemCount: articles.length,
+              itemBuilder: (context, index) {
+                var article = articles[index];
+                String articleTitle = article["title"];
+                int articleId = article["article_id"];
+                return ListTile(
+                  title: Text(articleTitle),
+                  onTap: () {
+                    Navigator.push(context,MaterialPageRoute(builder: (context) => ArticlePage(title: articleTitle, id: articleId)));
+                  },
+                );
+              }
             ),
             Align(
               alignment: Alignment.bottomRight,

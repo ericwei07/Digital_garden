@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:happy_digital_garden/pages/starter_page_controller.dart';
 
 import 'log_in_page.dart';
 import 'other_garden_page.dart';
@@ -38,8 +39,28 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
+  late StarterPageController _starterPageController;
+  @override
+  void initState() {
+    super.initState();
+    _starterPageController = StarterPageController();
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    loadPage();
+  }
+
+  Future loadPage() async {
+    await _starterPageController.checkToken();
+    setState(() {});
+  }
+
   @override
   Widget build(BuildContext context) {
+    if (_starterPageController.tokenValid) Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => const MyGardenContent(title: 'Your garden',)),(Route<dynamic> route) => false);
+
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
