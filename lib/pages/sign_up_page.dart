@@ -4,7 +4,7 @@ import 'package:happy_digital_garden/app_config.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'log_in_page.dart';
-import 'main.dart';
+import '../main.dart';
 
 class SignUpPage extends StatefulWidget {
   const SignUpPage({super.key, required this.title});

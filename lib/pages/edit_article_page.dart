@@ -2,12 +2,12 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 
 import '../app_config.dart';
-import 'article_page_controller.dart';
 
 class EditArticlePage extends StatefulWidget {
-  const EditArticlePage({super.key, required this.title});
-
+  const EditArticlePage({super.key, required this.title, required this.id, required this.content});
+  final int id;
   final String title;
+  final String content;
 
   @override
   State<EditArticlePage> createState() => _EditArticlePage();
@@ -18,19 +18,14 @@ class _EditArticlePage extends State<EditArticlePage> {
   final _title = TextEditingController();
 
   Dio dio = Dio();
-  late ArticlePageController _articlePageControler;
-  @override
-  void initState() {
-    super.initState();
-    _articlePageControler = ArticlePageController();
-  }
-
   Future<void> updateArticle() async {
     dio.options.baseUrl = AppConfig.baseUrl;
     Response response;
-    response = await dio.post('/article/post',
-        data: {'title': _title.text, 'content':_content.text, 'id':_articlePageControler.article["id"]});
+    response = await dio.post('/article/update',
+        data: {'title': _title.text, 'content':_content.text, 'id':widget.id});
     if (response.data['result'] == 1) {
+      print(_title.text);
+      print(_content.text);
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
           content: Text('title/content can not be empty'),
@@ -75,8 +70,8 @@ class _EditArticlePage extends State<EditArticlePage> {
 
   @override
   Widget build(BuildContext context) {
-    final content = _articlePageControler.article['content'];
-    final title = _articlePageControler.article['title'];
+    final content = widget.content;
+    final title = widget.title;
     _content.text = content;
     _title.text = title;
     return Scaffold(
@@ -85,7 +80,7 @@ class _EditArticlePage extends State<EditArticlePage> {
             .of(context)
             .colorScheme
             .inversePrimary,
-        title: Text(widget.title),
+        title: const Text("Edit article"),
       ),
       body: Center(
         child: Row(

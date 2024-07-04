@@ -4,13 +4,13 @@ import 'package:flutter/material.dart';
 import 'package:happy_digital_garden/app_config.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import 'main.dart';
+import '../main.dart';
 
 class ProfilePageController {
   Map<String ,dynamic> result = Map();
   final Dio dio = Dio();
   bool isLoading = false;
-  Future UserDetail(BuildContext context) async {
+  Future userDetail(BuildContext context) async {
     dio.options.baseUrl = AppConfig.baseUrl;
     try {
       isLoading = true;

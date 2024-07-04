@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../app_config.dart';
-import 'main.dart';
+import '../main.dart';
 
 class NewGardenPage extends StatefulWidget {
   const NewGardenPage({super.key, required this.title});
@@ -45,7 +45,7 @@ class _NewGardenPage extends State<NewGardenPage> {
       ),
             (Route<dynamic> route) => false,
       );
-    };
+    }
     response = await dio.post('/article/post',
         data: {'title': _title.text, 'content':_content.text, 'writer': jwt.payload["id"]});
     if (response.data['result'] == 1) {

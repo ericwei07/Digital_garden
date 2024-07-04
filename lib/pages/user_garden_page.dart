@@ -1,5 +1,3 @@
-import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:happy_digital_garden/pages/article_page.dart';
 
@@ -8,6 +6,7 @@ import 'user_garden_page_controller.dart';
 
 class MyGardenContent extends StatefulWidget {
   const MyGardenContent({super.key, required this.title});
+
   final String title;
 
   @override
@@ -16,6 +15,7 @@ class MyGardenContent extends StatefulWidget {
 
 class _MyGardenContent extends State<MyGardenContent> {
   late UserGardenPageController _userGardenPageController;
+
   @override
   void initState() {
     super.initState();
@@ -40,32 +40,33 @@ class _MyGardenContent extends State<MyGardenContent> {
     final gardenName = "$username's garden";
     final gardenContent = "this is $username's garden";
     return Scaffold(
-      body: SingleChildScrollView (
+      body: _userGardenPageController.isLoading ? const CircularProgressIndicator() : SingleChildScrollView(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
             Text(
               gardenName,
-              style: const TextStyle(
-                  fontWeight: FontWeight.bold,
-                  fontSize: 20.0
-              ),
+              style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 20.0),
             ),
             Text(gardenContent),
-            ListView.builder(
-              itemCount: articles.length,
-              itemBuilder: (context, index) {
-                var article = articles[index];
-                String articleTitle = article["title"];
-                int articleId = article["article_id"];
-                return ListTile(
-                  title: Text(articleTitle),
-                  onTap: () {
-                    Navigator.push(context,MaterialPageRoute(builder: (context) => ArticlePage(title: articleTitle, id: articleId)));
-                  },
-                );
-              }
+            (articles?.length == 0) ? const Text("Your garden is empty, try create a new one") : SizedBox(
+              width: 1000,
+              height: 1000,
+              child: ListView.builder(
+                itemCount: articles.length,
+                itemBuilder: (context, index) {
+                  var article = articles[index];
+                  String articleTitle = article["title"];
+                  int articleId = article["article_id"];
+                  return ListTile(
+                    title: Text(articleTitle),
+                    onTap: () {
+                      Navigator.push(context, MaterialPageRoute(builder: (context) => ArticlePage(title: articleTitle, id: articleId)));
+                    },
+                  );
+                }
+              ),
             ),
             Align(
               alignment: Alignment.bottomRight,
@@ -73,7 +74,11 @@ class _MyGardenContent extends State<MyGardenContent> {
                 heroTag: null,
                 onPressed: () {
                   Navigator.push(
-                    context, MaterialPageRoute(builder: (context) => const NewGardenPage(title: 'digital garden',)),
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => const NewGardenPage(
+                              title: 'digital garden',
+                            )),
                   );
                 },
                 child: const Icon(Icons.edit),
@@ -85,4 +90,3 @@ class _MyGardenContent extends State<MyGardenContent> {
     );
   }
 }
-

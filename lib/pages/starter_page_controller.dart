@@ -16,7 +16,7 @@ class StarterPageController {
     final currentTime = DateTime.now();
     if (expiryDate.difference(currentTime).inSeconds > 0) {
       tokenValid = true;
-    };
+    }
     return;
   }
 }

@@ -2,16 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:happy_digital_garden/pages/starter_page_controller.dart';
 
-import 'log_in_page.dart';
-import 'other_garden_page.dart';
-import 'profile_page.dart';
-import 'settings_page.dart';
-import 'sign_up_page.dart';
-import 'user_garden_page.dart';
+import 'pages/log_in_page.dart';
+import 'pages/other_garden_page.dart';
+import 'pages/profile_page.dart';
+import 'pages/settings_page.dart';
+import 'pages/sign_up_page.dart';
+import 'pages/user_garden_page.dart';
 
 void main() async {
-  runApp(const MyApp());
   await dotenv.load(fileName: '.env');
+  runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
@@ -32,6 +32,7 @@ class MyApp extends StatelessWidget {
 
 class MyHomePage extends StatefulWidget {
   const MyHomePage({super.key, required this.title});
+
   final String title;
 
   @override
@@ -40,10 +41,11 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   late StarterPageController _starterPageController;
+
   @override
   void initState() {
-    super.initState();
     _starterPageController = StarterPageController();
+    super.initState();
   }
 
   @override
@@ -59,9 +61,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
-    if (_starterPageController.tokenValid) Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => const MyGardenContent(title: 'Your garden',)),(Route<dynamic> route) => false);
-
-    return Scaffold(
+    return _starterPageController.tokenValid ? const MainPage(title: 'main page',) : Scaffold(
       appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
         title: Text(widget.title),
@@ -73,16 +73,16 @@ class _MyHomePageState extends State<MyHomePage> {
             ElevatedButton(
               onPressed: () =>
                   Navigator.push(context, MaterialPageRoute(builder: (context) {
-                    return const LogInPage(title: 'Log in');
-                  })),
+                return const LogInPage(title: 'Log in');
+              })),
               child: const Text("Log in"),
             ),
             const SizedBox(width: 16),
             ElevatedButton(
               onPressed: () =>
                   Navigator.push(context, MaterialPageRoute(builder: (context) {
-                    return const SignUpPage(title: 'Sign up');
-                  })),
+                return const SignUpPage(title: 'Sign up');
+              })),
               child: const Text("Sign up"),
             ),
           ],
@@ -94,6 +94,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
 class MainPage extends StatefulWidget {
   const MainPage({super.key, required this.title});
+
   final String title;
 
   @override
@@ -104,6 +105,7 @@ class _MainPage extends State<MainPage> {
   NavigationRailLabelType labelType = NavigationRailLabelType.all;
   double groupAlignment = -1.0;
   int currentPageIndex = 1;
+
   IndexedStack _getPage(int index) {
     return IndexedStack(
       index: index,
@@ -115,6 +117,7 @@ class _MainPage extends State<MainPage> {
       ],
     );
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -165,21 +168,19 @@ class _MainPage extends State<MainPage> {
 
 class Dummypage extends StatefulWidget {
   const Dummypage({super.key, required this.title});
+
   final String title;
 
   @override
   State<Dummypage> createState() => _Dummypage();
 }
 
-class _Dummypage extends State<Dummypage>{
-
-
+class _Dummypage extends State<Dummypage> {
   @override
   Widget build(BuildContext context) {
     return const Scaffold(
       body: Column(
-        children: <Widget>[
-        ],
+        children: <Widget>[],
       ),
     );
   }

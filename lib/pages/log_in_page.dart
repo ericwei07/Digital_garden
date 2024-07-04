@@ -4,7 +4,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import '../app_config.dart';
 import 'sign_up_page.dart';
-import 'main.dart';
+import '../main.dart';
 
 
 class LogInPage extends StatefulWidget {

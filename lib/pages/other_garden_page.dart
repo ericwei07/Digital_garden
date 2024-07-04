@@ -35,7 +35,7 @@ class _AllGardenContent extends State<AllGardenContent>{
   Widget build(BuildContext context) {
     final articles = _otherGardenPageController.result["content"];
     return Scaffold(
-      body: SingleChildScrollView (
+      body:_otherGardenPageController.isLoading ? const CircularProgressIndicator() : SingleChildScrollView (
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -45,20 +45,25 @@ class _AllGardenContent extends State<AllGardenContent>{
                 Text('Newest garden are here'),
               ],
             ),
-            ListView.builder(
-                itemCount: articles.length,
-                itemBuilder: (context, index) {
-                  var article = articles[index];
-                  String articleTitle = article["title"];
-                  int articleId = article["article_id"];
-                  return ListTile(
-                    title: Text(articleTitle),
-                    onTap: () {
-                      Navigator.push(context,MaterialPageRoute(builder: (context) => ArticlePage(title: articleTitle, id: articleId)));
-                    },
-                  );
-                }
-            ),
+            SizedBox(
+              width: 500,
+              height: 1000,
+              child:ListView.builder(
+                  itemCount: articles.length,
+                  itemBuilder: (context, index) {
+                    var article = articles[index];
+                    String articleTitle = article["title"];
+                    int articleId = article["article_id"];
+                    return ListTile(
+                      title: Text(articleTitle),
+                      onTap: () {
+                        Navigator.push(context,MaterialPageRoute(builder: (context) => ArticlePage(title: articleTitle, id: articleId)));
+                      },
+                    );
+                  }
+              ),
+            )
+            ,
           ],
         ),
       ),

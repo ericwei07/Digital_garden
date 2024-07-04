@@ -24,7 +24,7 @@ class _ProfileContent extends State<ProfileContent>{
   }
 
   Future loadPage() async {
-    await _profilePageController.UserDetail(context);
+    await _profilePageController.userDetail(context);
     setState(() {});
   }
 
