@@ -7,9 +7,10 @@ import 'package:shared_preferences/shared_preferences.dart';
 import '../main.dart';
 
 class UserGardenPageController {
-  Map<String ,dynamic> result = Map();
+  Map<String, dynamic> result = Map();
   final Dio dio = Dio();
   bool isLoading = true;
+
   Future getGardenList(BuildContext context) async {
     dio.options.baseUrl = AppConfig.baseUrl;
     final navigator = Navigator.of(context);
@@ -20,9 +21,11 @@ class UserGardenPageController {
       if (token == null || token == '') {
         navigator.pushAndRemoveUntil(
           MaterialPageRoute(
-            builder: (context) => const MyHomePage(title: 'home page',)
-        ),
-              (Route<dynamic> route) => false,
+            builder: (context) => const MyHomePage(
+              title: 'home page',
+            ),
+          ),
+          (Route<dynamic> route) => false,
         );
         return;
       }
@@ -33,9 +36,11 @@ class UserGardenPageController {
       if (expiryDate.difference(currentTime).inSeconds < 0) {
         navigator.pushAndRemoveUntil(
           MaterialPageRoute(
-            builder: (context) => const MyHomePage(title: 'home page',)
-        ),
-              (Route<dynamic> route) => false,
+            builder: (context) => const MyHomePage(
+              title: 'home page',
+            ),
+          ),
+          (Route<dynamic> route) => false,
         );
       }
       final name = jwt.payload["username"];
@@ -46,9 +51,5 @@ class UserGardenPageController {
     } finally {
       isLoading = false;
     }
-
   }
 }
-
-
-

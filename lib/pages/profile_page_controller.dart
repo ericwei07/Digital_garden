@@ -7,9 +7,10 @@ import 'package:shared_preferences/shared_preferences.dart';
 import '../main.dart';
 
 class ProfilePageController {
-  Map<String ,dynamic> result = Map();
+  Map<String, dynamic> result = Map();
   final Dio dio = Dio();
   bool isLoading = false;
+
   Future userDetail(BuildContext context) async {
     dio.options.baseUrl = AppConfig.baseUrl;
     try {
@@ -18,10 +19,13 @@ class ProfilePageController {
       var token = prefs.getString('accessToken');
       if (token == null || token == '') {
         Navigator.pushAndRemoveUntil(
-          context, MaterialPageRoute(
-            builder: (context) => const MyHomePage(title: 'home page',)
-        ),
-              (Route<dynamic> route) => false,
+          context,
+          MaterialPageRoute(
+            builder: (context) => const MyHomePage(
+              title: 'home page',
+            ),
+          ),
+          (Route<dynamic> route) => false,
         );
         return;
       }
@@ -31,18 +35,20 @@ class ProfilePageController {
       final currentTime = DateTime.now();
       if (expiryDate.difference(currentTime).inSeconds < 0) {
         Navigator.pushAndRemoveUntil(
-          context, MaterialPageRoute(
-            builder: (context) => const MyHomePage(title: 'home page',)
-        ),
-              (Route<dynamic> route) => false,
+          context,
+          MaterialPageRoute(
+            builder: (context) => const MyHomePage(
+              title: 'home page',
+            ),
+          ),
+          (Route<dynamic> route) => false,
         );
-      };
+      }
       final id = jwt.payload["id"];
       final response = await dio.get('/user/profile?id=$id');
       result = response.data;
     } finally {
       isLoading = false;
     }
-
   }
 }

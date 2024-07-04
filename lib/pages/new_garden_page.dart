@@ -27,10 +27,13 @@ class _NewGardenPage extends State<NewGardenPage> {
     var token = prefs.getString('accessToken');
     if (token == null || token == '') {
       Navigator.pushAndRemoveUntil(
-        context, MaterialPageRoute(
-          builder: (context) => const MyHomePage(title: 'home page',)
-      ),
-            (Route<dynamic> route) => false,
+        context,
+        MaterialPageRoute(
+          builder: (context) => const MyHomePage(
+            title: 'home page',
+          )
+        ),
+        (Route<dynamic> route) => false,
       );
       return;
     }
@@ -40,14 +43,16 @@ class _NewGardenPage extends State<NewGardenPage> {
     final currentTime = DateTime.now();
     if (expiryDate.difference(currentTime).inSeconds < 0) {
       Navigator.pushAndRemoveUntil(
-        context, MaterialPageRoute(
-          builder: (context) => const MyHomePage(title: 'home page',)
-      ),
-            (Route<dynamic> route) => false,
+        context,
+        MaterialPageRoute(
+          builder: (context) => const MyHomePage(
+            title: 'home page',
+          )
+        ),
+        (Route<dynamic> route) => false,
       );
     }
-    response = await dio.post('/article/post',
-        data: {'title': _title.text, 'content':_content.text, 'writer': jwt.payload["id"]});
+    response = await dio.post('/article/post', data: {'title': _title.text, 'content': _content.text, 'writer': jwt.payload["id"]});
     if (response.data['result'] == 1) {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
@@ -59,9 +64,8 @@ class _NewGardenPage extends State<NewGardenPage> {
     }
   }
 
-  Future<void> checkInput() async{
-    if (_content.text.isEmpty ||
-        _title.text.isEmpty) {
+  Future<void> checkInput() async {
+    if (_content.text.isEmpty || _title.text.isEmpty) {
       var emptyField = '';
       if (_content.text.isEmpty) {
         emptyField += 'Content';
@@ -89,10 +93,7 @@ class _NewGardenPage extends State<NewGardenPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Theme
-            .of(context)
-            .colorScheme
-            .inversePrimary,
+        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
         title: Text(widget.title),
       ),
       body: Center(
@@ -106,41 +107,31 @@ class _NewGardenPage extends State<NewGardenPage> {
                     alignment: Alignment.topLeft,
                     child: SizedBox(
                       height: 50,
-                      child:TextField(
+                      child: TextField(
                         autofocus: true,
                         textAlign: TextAlign.left,
                         textAlignVertical: TextAlignVertical.top,
                         controller: _title,
                         keyboardType: TextInputType.multiline,
                         maxLines: null,
-                        decoration: const InputDecoration(
-                            border: InputBorder.none,
-                            labelText: 'Title',
-                            hintText: 'Write the article title here'
-                        ),
+                        decoration: const InputDecoration(border: InputBorder.none, labelText: 'Title', hintText: 'Write the article title here'),
                       ),
                     ),
                   ),
-
                   Align(
                     alignment: Alignment.topLeft,
                     child: TextField(
                       autofocus: true,
-                        textAlign: TextAlign.left,
-                        textAlignVertical: TextAlignVertical.top,
-                        controller: _content,
-                        keyboardType: TextInputType.multiline,
-                        maxLines: null,
-                        decoration: const InputDecoration(
-                          border: InputBorder.none,
-                          labelText: 'Write your garden here',
-                          hintText: 'Write your garden here'
-                        ),
-                      ),
+                      textAlign: TextAlign.left,
+                      textAlignVertical: TextAlignVertical.top,
+                      controller: _content,
+                      keyboardType: TextInputType.multiline,
+                      maxLines: null,
+                      decoration: const InputDecoration(border: InputBorder.none, labelText: 'Write your garden here', hintText: 'Write your garden here'),
                     ),
-                  ]
-                )
-
+                  ),
+                ],
+              ),
             ),
             Align(
               alignment: Alignment.bottomRight,

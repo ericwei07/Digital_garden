@@ -29,7 +29,6 @@ class _ProfileContent extends State<ProfileContent>{
   }
 
   @override
-
   Widget build(BuildContext context) {
     var dateJoined = _profilePageController.result["join_date"];
     var userName = _profilePageController.result["name"];

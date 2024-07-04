@@ -6,9 +6,9 @@ import '../app_config.dart';
 import 'sign_up_page.dart';
 import '../main.dart';
 
-
 class LogInPage extends StatefulWidget {
   const LogInPage({super.key, required this.title});
+
   final String title;
 
   @override
@@ -20,11 +20,10 @@ class _LogInPage extends State<LogInPage> {
   final _logInPassword = TextEditingController();
   final dio = Dio();
 
-  Future<void> request (name, password) async {
+  Future<void> request(name, password) async {
     dio.options.baseUrl = AppConfig.baseUrl;
     Response response;
-    response = await dio.post('/account/login',
-        data: {'username': name, 'password': password});
+    response = await dio.post('/account/login', data: {'username': name, 'password': password});
     if (response.data['result'] == 1) {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
@@ -45,9 +44,9 @@ class _LogInPage extends State<LogInPage> {
         context,
         MaterialPageRoute(
             builder: (context) => const MainPage(
-              title: 'digital garden',
-            )),
-            (Route<dynamic> route) => false,
+                  title: 'digital garden',
+                )),
+        (Route<dynamic> route) => false,
       );
     }
   }
@@ -75,7 +74,6 @@ class _LogInPage extends State<LogInPage> {
     }
   }
 
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -94,10 +92,7 @@ class _LogInPage extends State<LogInPage> {
                   width: 300,
                   child: TextField(
                     controller: _logIn,
-                    decoration: const InputDecoration(
-                        border: OutlineInputBorder(),
-                        labelText: 'Username',
-                        hintText: 'Username'),
+                    decoration: const InputDecoration(border: OutlineInputBorder(), labelText: 'Username', hintText: 'Username'),
                   ),
                 ),
               ],
@@ -137,10 +132,11 @@ class _LogInPage extends State<LogInPage> {
                 const Text("Don't have an account? click"),
                 TextButton(
                     onPressed: () {
-                      Navigator.push(context, MaterialPageRoute(builder: (context) {return const SignUpPage(title: 'Sign Up');}));
+                      Navigator.push(context, MaterialPageRoute(builder: (context) {
+                        return const SignUpPage(title: 'Sign Up');
+                      }));
                     },
-                    child: const Text('Here')
-                )
+                    child: const Text('Here'))
               ],
             ),
           ],
@@ -149,4 +145,3 @@ class _LogInPage extends State<LogInPage> {
     );
   }
 }
-

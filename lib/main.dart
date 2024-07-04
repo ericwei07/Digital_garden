@@ -71,18 +71,26 @@ class _MyHomePageState extends State<MyHomePage> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             ElevatedButton(
-              onPressed: () =>
-                  Navigator.push(context, MaterialPageRoute(builder: (context) {
-                return const LogInPage(title: 'Log in');
-              })),
+              onPressed: () => Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) {
+                    return const LogInPage(title: 'Log in');
+                  }
+                ),
+              ),
               child: const Text("Log in"),
             ),
             const SizedBox(width: 16),
             ElevatedButton(
-              onPressed: () =>
-                  Navigator.push(context, MaterialPageRoute(builder: (context) {
-                return const SignUpPage(title: 'Sign up');
-              })),
+              onPressed: () => Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) {
+                      return const SignUpPage(title: 'Sign up');
+                  }
+                ),
+              ),
               child: const Text("Sign up"),
             ),
           ],
@@ -161,26 +169,6 @@ class _MainPage extends State<MainPage> {
             child: _getPage(currentPageIndex),
           ), // This is the main content.
         ],
-      ),
-    );
-  }
-}
-
-class Dummypage extends StatefulWidget {
-  const Dummypage({super.key, required this.title});
-
-  final String title;
-
-  @override
-  State<Dummypage> createState() => _Dummypage();
-}
-
-class _Dummypage extends State<Dummypage> {
-  @override
-  Widget build(BuildContext context) {
-    return const Scaffold(
-      body: Column(
-        children: <Widget>[],
       ),
     );
   }

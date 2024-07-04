@@ -62,7 +62,11 @@ class _MyGardenContent extends State<MyGardenContent> {
                   return ListTile(
                     title: Text(articleTitle),
                     onTap: () {
-                      Navigator.push(context, MaterialPageRoute(builder: (context) => ArticlePage(title: articleTitle, id: articleId)));
+                      Navigator.push(
+                        context, MaterialPageRoute(
+                          builder: (context) => ArticlePage(title: articleTitle, id: articleId)
+                        ),
+                      );
                     },
                   );
                 }
@@ -76,9 +80,10 @@ class _MyGardenContent extends State<MyGardenContent> {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) => const NewGardenPage(
-                              title: 'digital garden',
-                            )),
+                      builder: (context) => const NewGardenPage(
+                        title: 'digital garden',
+                      )
+                    ),
                   );
                 },
                 child: const Icon(Icons.edit),

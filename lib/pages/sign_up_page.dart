@@ -25,8 +25,7 @@ class _SignUpPage extends State<SignUpPage> {
   Future<void> request(name, mail, password) async {
     dio.options.baseUrl = AppConfig.baseUrl;
     Response response;
-    response = await dio.post('/account/signup',
-        data: {'username': name, 'email': mail, 'password': password});
+    response = await dio.post('/account/signup', data: {'username': name, 'email': mail, 'password': password});
     if (response.data['result'] == 2) {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
@@ -51,13 +50,13 @@ class _SignUpPage extends State<SignUpPage> {
       await prefs.setString('baseUrl', AppConfig.baseUrl);
       await prefs.setString('accessToken', token);
 
-
       Navigator.pushAndRemoveUntil(
         context,
         MaterialPageRoute(
-            builder: (context) => const MainPage(
-                  title: 'digital garden',
-                )),
+          builder: (context) => const MainPage(
+            title: 'digital garden',
+          ),
+        ),
         (Route<dynamic> route) => false,
       );
     }
@@ -67,16 +66,13 @@ class _SignUpPage extends State<SignUpPage> {
     if (mail.isEmpty) {
       return false;
     }
-    String pattern =
-        r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&\'*+/=?^_`{|}~-]+@[a-zA-Z0-9]+(?:\.[a-zA-Z0-9-]+)*$";
+    String pattern = r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&\'*+/=?^_`{|}~-]+@[a-zA-Z0-9]+(?:\.[a-zA-Z0-9-]+)*$";
     RegExp regExp = RegExp(pattern);
     return regExp.hasMatch(mail);
   }
 
   void _checkInput() async {
-    if (_signUp.text.isEmpty ||
-        _signUpPassword.text.isEmpty ||
-        !validEmail(_signUpMail.text)) {
+    if (_signUp.text.isEmpty || _signUpPassword.text.isEmpty || !validEmail(_signUpMail.text)) {
       var emptyField = '';
       if (_signUp.text.isEmpty) {
         emptyField += 'Username';
@@ -125,10 +121,7 @@ class _SignUpPage extends State<SignUpPage> {
                   width: 300,
                   child: TextField(
                     controller: _signUpMail,
-                    decoration: const InputDecoration(
-                        border: OutlineInputBorder(),
-                        labelText: 'Email address',
-                        hintText: 'Enter your Email here'),
+                    decoration: const InputDecoration(border: OutlineInputBorder(), labelText: 'Email address', hintText: 'Enter your Email here'),
                   ),
                 ),
               ],
@@ -143,10 +136,7 @@ class _SignUpPage extends State<SignUpPage> {
                   width: 300,
                   child: TextField(
                     controller: _signUp,
-                    decoration: const InputDecoration(
-                        border: OutlineInputBorder(),
-                        labelText: 'Username',
-                        hintText: 'Enter your username here'),
+                    decoration: const InputDecoration(border: OutlineInputBorder(), labelText: 'Username', hintText: 'Enter your username here'),
                   ),
                 ),
               ],
@@ -164,10 +154,7 @@ class _SignUpPage extends State<SignUpPage> {
                     enableSuggestions: false,
                     autocorrect: false,
                     controller: _signUpPassword,
-                    decoration: const InputDecoration(
-                        border: OutlineInputBorder(),
-                        labelText: 'Password',
-                        hintText: 'Enter your Password here'),
+                    decoration: const InputDecoration(border: OutlineInputBorder(), labelText: 'Password', hintText: 'Enter your Password here'),
                   ),
                 ),
               ],
@@ -175,23 +162,26 @@ class _SignUpPage extends State<SignUpPage> {
             const SizedBox(
               height: 5,
             ),
-            ElevatedButton(
-                onPressed: _checkInput, child: const Text("Sign up")),
+            ElevatedButton(onPressed: _checkInput, child: const Text("Sign up")),
             const SizedBox(
               height: 5,
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
-                const Text("Alreay have an account? click"),
+                const Text("Already have an account? click"),
                 TextButton(
-                    onPressed: () {
-                      Navigator.push(context,
-                          MaterialPageRoute(builder: (context) {
-                        return const LogInPage(title: 'Log in');
-                      }));
-                    },
-                    child: const Text('Here'))
+                  onPressed: () {
+                    Navigator.push(
+                      context, MaterialPageRoute(
+                        builder: (context) {
+                          return const LogInPage(title: 'Log in');
+                        }
+                      ),
+                    );
+                  },
+                  child: const Text('Here'),
+                ),
               ],
             ),
           ],

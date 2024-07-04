@@ -49,21 +49,20 @@ class _AllGardenContent extends State<AllGardenContent>{
               width: 500,
               height: 1000,
               child:ListView.builder(
-                  itemCount: articles.length,
-                  itemBuilder: (context, index) {
-                    var article = articles[index];
-                    String articleTitle = article["title"];
-                    int articleId = article["article_id"];
-                    return ListTile(
-                      title: Text(articleTitle),
-                      onTap: () {
-                        Navigator.push(context,MaterialPageRoute(builder: (context) => ArticlePage(title: articleTitle, id: articleId)));
-                      },
-                    );
-                  }
+                itemCount: articles.length,
+                itemBuilder: (context, index) {
+                  var article = articles[index];
+                  String articleTitle = article["title"];
+                  int articleId = article["article_id"];
+                  return ListTile(
+                    title: Text(articleTitle),
+                    onTap: () {
+                      Navigator.push(context,MaterialPageRoute(builder: (context) => ArticlePage(title: articleTitle, id: articleId)));
+                    },
+                  );
+                }
               ),
-            )
-            ,
+            ),
           ],
         ),
       ),

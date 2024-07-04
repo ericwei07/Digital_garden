@@ -15,7 +15,7 @@ class ArticlePage extends StatefulWidget {
 }
 
 class _ArticlePage extends State<ArticlePage> {
-  late ArticlePageController _articlePageControler;
+  late ArticlePageController _articlePageController;
 
   Dio dio = Dio();
   Future<void> deleteArticle() async {
@@ -37,7 +37,7 @@ class _ArticlePage extends State<ArticlePage> {
   @override
   void initState() {
     super.initState();
-    _articlePageControler = ArticlePageController();
+    _articlePageController = ArticlePageController();
   }
 
   @override
@@ -47,19 +47,19 @@ class _ArticlePage extends State<ArticlePage> {
   }
 
   Future loadPage() async {
-    await _articlePageControler.getArticle(context, widget.id);
+    await _articlePageController.getArticle(context, widget.id);
     setState(() {});
   }
 
   @override
   Widget build(BuildContext context) {
-    final title = _articlePageControler.article["title"];
-    final content = _articlePageControler.article["content"];
-    final dateEdit = _articlePageControler.article["date_edit"];
-    final author = _articlePageControler.article["writer"];
-    final articleId = _articlePageControler.article["id"];
-    final owner = _articlePageControler.article["owner"];
-    var datePublish = "Published: ${_articlePageControler.article["date_publish"]}";
+    final title = _articlePageController.article["title"];
+    final content = _articlePageController.article["content"];
+    final dateEdit = _articlePageController.article["date_edit"];
+    final author = _articlePageController.article["writer"];
+    final articleId = _articlePageController.article["id"];
+    final owner = _articlePageController.article["owner"];
+    var datePublish = "Published: ${_articlePageController.article["date_publish"]}";
     if (dateEdit != null) {
       datePublish += ", edited: $dateEdit";
     }
@@ -69,7 +69,7 @@ class _ArticlePage extends State<ArticlePage> {
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
         title: Text(widget.title),
       ),
-      body: _articlePageControler.isLoading ? const CircularProgressIndicator() : SingleChildScrollView(
+      body: _articlePageController.isLoading ? const CircularProgressIndicator() : SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[

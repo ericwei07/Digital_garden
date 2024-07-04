@@ -19,8 +19,8 @@ class _Settings extends State<Settings>{
     Navigator.pushAndRemoveUntil(
       context, MaterialPageRoute(
         builder: (context) => const MyHomePage(title: 'home page',)
-    ),
-          (Route<dynamic> route) => false,
+      ),
+      (Route<dynamic> route) => false,
     );
   }
 
@@ -38,7 +38,7 @@ class _Settings extends State<Settings>{
               },
               child: const Text('Log out'),
             ),
-          )
+          ),
         ],
       ),
     );

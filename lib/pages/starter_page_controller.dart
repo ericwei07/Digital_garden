@@ -1,10 +1,10 @@
 import 'package:dart_jsonwebtoken/dart_jsonwebtoken.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-
 class StarterPageController {
   var tokenValid = false;
-  Future<void> checkToken() async{
+
+  Future<void> checkToken() async {
     final prefs = await SharedPreferences.getInstance();
     var token = prefs.getString('accessToken');
     if (token == null || token == '') {
@@ -20,5 +20,3 @@ class StarterPageController {
     return;
   }
 }
-
-

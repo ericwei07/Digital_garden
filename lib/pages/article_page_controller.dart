@@ -7,14 +7,15 @@ import 'package:shared_preferences/shared_preferences.dart';
 import '../main.dart';
 
 class ArticlePageController {
-  Map<String ,dynamic> article = Map();
+  Map<String, dynamic> article = Map();
   final Dio dio = Dio();
   bool isLoading = true;
+
   Future getArticle(BuildContext context, int id) async {
     dio.options.baseUrl = AppConfig.baseUrl;
     try {
       isLoading = true;
-      final response = await dio.get('/article/get?id=' + id.toString());
+      final response = await dio.get('/article/get?id=$id');
       if (response.data["result"] == 1) {
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(
@@ -38,10 +39,13 @@ class ArticlePageController {
 
   void backToHomePage(BuildContext context) {
     Navigator.pushAndRemoveUntil(
-      context, MaterialPageRoute(
-        builder: (context) => const MyHomePage(title: 'home page',)
-    ),
-          (Route<dynamic> route) => false,
+      context,
+      MaterialPageRoute(
+        builder: (context) => const MyHomePage(
+          title: 'home page',
+        ),
+      ),
+      (Route<dynamic> route) => false,
     );
   }
 
@@ -59,7 +63,7 @@ class ArticlePageController {
     if (expiryDate.difference(currentTime).inSeconds < 0) {
       backToHomePage(context);
       return;
-    };
+    }
     final name = jwt.payload["username"];
     if (name == article["writer"]) {
       article["owner"] = true;
@@ -68,4 +72,3 @@ class ArticlePageController {
     }
   }
 }
-
