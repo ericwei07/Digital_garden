@@ -22,7 +22,7 @@ jobs:
           flutter build web --release --base-href "/"
 
       - name: Create CNAME file
-        run: echo 'interesting.eu.org' > ./build/web/CNAME
+        run: echo 'digital-garden.interesting.eu.org' > ./build/web/CNAME
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
         with:
