@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:happy_digital_garden/pages/starter_page_controller.dart';
 
+import 'pages/links_page.dart';
 import 'pages/log_in_page.dart';
 import 'pages/other_garden_page.dart';
 import 'pages/profile_page.dart';
@@ -121,6 +122,7 @@ class _MainPage extends State<MainPage> {
         ProfileContent(title: "User profile"),
         MyGardenContent(title: "Your garden"),
         AllGardenContent(title: "Explore other gardens"),
+        MyLinks(title: "Your links"),
         Settings(title: "Settings")
       ],
     );
@@ -155,6 +157,11 @@ class _MainPage extends State<MainPage> {
                 icon: Icon(Icons.explore_outlined),
                 selectedIcon: Icon(Icons.explore),
                 label: Text('Other gardens'),
+              ),
+              NavigationRailDestination(
+                icon: Icon(Icons.link),
+                selectedIcon: Icon(Icons.link),
+                label: Text('Links'),
               ),
               NavigationRailDestination(
                 icon: Icon(Icons.settings_applications_outlined),

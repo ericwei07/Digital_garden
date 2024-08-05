@@ -40,20 +40,16 @@ class _MyGardenContent extends State<MyGardenContent> {
     final gardenName = "$username's garden";
     final gardenContent = "this is $username's garden";
     return Scaffold(
-      body: _userGardenPageController.isLoading ? const CircularProgressIndicator() : SingleChildScrollView(
-        child: Column(
+      appBar: AppBar(
+        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
+        title: Text(gardenName),
+      ),
+      body: _userGardenPageController.isLoading ? const CircularProgressIndicator() : Column(
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
-            Text(
-              gardenName,
-              style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 20.0),
-            ),
             Text(gardenContent),
-            (articles?.length == 0) ? const Text("Your garden is empty, try create a new one") : SizedBox(
-              width: 1000,
-              height: 1000,
-              child: ListView.builder(
+            (articles?.length == 0) ? const Text("Your garden is empty, try create a new one") : ListView.builder(
                 itemCount: articles.length,
                 itemBuilder: (context, index) {
                   var article = articles[index];
@@ -71,7 +67,6 @@ class _MyGardenContent extends State<MyGardenContent> {
                   );
                 }
               ),
-            ),
             Align(
               alignment: Alignment.bottomRight,
               child: FloatingActionButton(
@@ -91,7 +86,6 @@ class _MyGardenContent extends State<MyGardenContent> {
             ),
           ],
         ),
-      ),
     );
   }
 }
