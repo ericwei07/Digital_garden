@@ -136,7 +136,11 @@ class _SignUpPage extends State<SignUpPage> {
                   width: 300,
                   child: TextField(
                     controller: _signUp,
-                    decoration: const InputDecoration(border: OutlineInputBorder(), labelText: 'Username', hintText: 'Enter your username here'),
+                    decoration: const InputDecoration(
+                      border: OutlineInputBorder(),
+                      labelText: 'Username',
+                      hintText: 'Enter your username here'
+                    ),
                   ),
                 ),
               ],

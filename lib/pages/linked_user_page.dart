@@ -37,7 +37,6 @@ class _LinkedUserPage extends State<LinkedUserPage> {
   Widget build(BuildContext context) {
     final username = widget.username;
     final articles = _LinkedUserPageController.result['content'];
-    final gardenName = "$username's garden";
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,

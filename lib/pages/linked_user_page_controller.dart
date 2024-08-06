@@ -1,10 +1,5 @@
-import 'package:dart_jsonwebtoken/dart_jsonwebtoken.dart';
 import 'package:dio/dio.dart';
-import 'package:flutter/material.dart';
 import 'package:happy_digital_garden/app_config.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-
-import '../main.dart';
 
 class LinkedUserPageController {
   Map<String, dynamic> result = Map();

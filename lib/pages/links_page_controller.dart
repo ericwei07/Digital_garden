@@ -43,7 +43,6 @@ class LinksPageController {
               (Route<dynamic> route) => false,
         );
       }
-      final name = jwt.payload["username"];
       final id = jwt.payload["id"];
       final response = await dio.get('/links/get?id=$id');
       result["usernames"] = response.data['usernames'];

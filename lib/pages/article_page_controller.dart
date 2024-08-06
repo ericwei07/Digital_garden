@@ -8,8 +8,52 @@ import '../main.dart';
 
 class ArticlePageController {
   Map<String, dynamic> article = Map();
+  Map<String, dynamic> comments = Map();
   final Dio dio = Dio();
   bool isLoading = true;
+
+  Future getComments(BuildContext context, int id) async {
+    dio.options.baseUrl = AppConfig.baseUrl;
+    try {
+      isLoading = true;
+      final response = await dio.get('/comment/get?id=$id');
+      if (response.data["result"] == 1) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text('article id is empty not exist'),
+          ),
+        );
+      } else {
+        comments = response.data;
+        var tmp = [];
+        var prefs = await SharedPreferences.getInstance();
+        var token = prefs.getString('accessToken');
+        if (token == null || token == '') {
+          backToHomePage(context);
+          return;
+        }
+        final jwt = JWT.decode(token);
+        final exp = jwt.payload['exp'];
+        final expiryDate = DateTime.fromMillisecondsSinceEpoch(exp * 1000);
+        final currentTime = DateTime.now();
+        if (expiryDate.difference(currentTime).inSeconds < 0) {
+          backToHomePage(context);
+          return;
+        }
+        final id = jwt.payload["id"];
+        for (var comment in comments['content']) {
+          if (comment['author_id'] == id) {
+            tmp.add(true);
+          } else {
+            tmp.add(false);
+          }
+        }
+        comments['owner'] = tmp;
+      }
+    } finally {
+      isLoading = false;
+    }
+  }
 
   Future getArticle(BuildContext context, int id) async {
     dio.options.baseUrl = AppConfig.baseUrl;

@@ -49,24 +49,27 @@ class _MyGardenContent extends State<MyGardenContent> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
             Text(gardenContent),
-            (articles?.length == 0) ? const Text("Your garden is empty, try create a new one") : ListView.builder(
-                itemCount: articles.length,
-                itemBuilder: (context, index) {
-                  var article = articles[index];
-                  String articleTitle = article["title"];
-                  int articleId = article["article_id"];
-                  return ListTile(
-                    title: Text(articleTitle),
-                    onTap: () {
-                      Navigator.push(
-                        context, MaterialPageRoute(
-                          builder: (context) => ArticlePage(title: articleTitle, id: articleId)
-                        ),
+            Expanded(
+                child: (articles?.length == 0) ? const Text("Your garden is empty, try create a new one") : ListView.builder(
+                    itemCount: articles.length,
+                    itemBuilder: (context, index) {
+                      var article = articles[index];
+                      String articleTitle = article["title"];
+                      int articleId = article["article_id"];
+                      return ListTile(
+                        title: Text(articleTitle),
+                        onTap: () {
+                          Navigator.push(
+                            context, MaterialPageRoute(
+                              builder: (context) => ArticlePage(title: articleTitle, id: articleId)
+                          ),
+                          );
+                        },
                       );
-                    },
-                  );
-                }
-              ),
+                    }
+                ),
+            ),
+
             Align(
               alignment: Alignment.bottomRight,
               child: FloatingActionButton(
