@@ -21,9 +21,8 @@ class _ArticlePage extends State<ArticlePage> {
   late ArticlePageController _articlePageController;
   final _commentsTextController = TextEditingController();
 
-  Dio dio = Dio();
+
   Future<void> deleteArticle() async {
-    dio.options.baseUrl = AppConfig.baseUrl;
     Response response;
     response = await dio.delete('/article/delete?id=${widget.id}');
     if (response.data['result'] == 1) {
@@ -33,7 +32,23 @@ class _ArticlePage extends State<ArticlePage> {
         ),
       );
     } else {
-      Navigator.pop(context);
+      Navigator.of(context).pop();
+    }
+  }
+
+  Future<void> deleteComment(id) async {
+
+    Response response;
+    response = await dio.delete('/comment/delete?id=$id');
+    if (response.data['result'] == 1) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('id can not be empty'),
+        ),
+      );
+    } else {
+      _articlePageController.getComments(context, widget.id);
+      setState(() {});
     }
   }
 
@@ -50,6 +65,7 @@ class _ArticlePage extends State<ArticlePage> {
   }
 
   Future<void> request() async {
+
     final prefs = await SharedPreferences.getInstance();
     var token = prefs.getString('accessToken');
     Response response;
@@ -107,10 +123,12 @@ class _ArticlePage extends State<ArticlePage> {
     }
   }
 
+  Dio dio = Dio();
 
   @override
   void initState() {
     super.initState();
+    dio.options.baseUrl = AppConfig.baseUrl;
     _articlePageController = ArticlePageController();
   }
 
@@ -135,6 +153,9 @@ class _ArticlePage extends State<ArticlePage> {
     final articleId = _articlePageController.article["id"];
     final articleOwner = _articlePageController.article["owner"];
     var datePublish = "Published: ${_articlePageController.article["date_publish"]}";
+    final comments = _articlePageController.comments['content'];
+    final commentAuthors = _articlePageController.comments['author_names'];
+    // final commentIds = _articlePageController.comments['comment_id'];
     if (dateEdit != null) {
       datePublish += ", edited: $dateEdit";
     }
@@ -161,12 +182,17 @@ class _ArticlePage extends State<ArticlePage> {
                   if(articleOwner)...[Align(
                     alignment: Alignment.bottomRight,
                     child: FloatingActionButton(
-                      onPressed: () => Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) =>  EditArticlePage(title: title, id: articleId, content: content)
-                        )
-                      ),
+                      onPressed: () async {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) =>  EditArticlePage(title: title, id: articleId, content: content)
+                          )
+                        );
+                        _articlePageController.isLoading = true;
+                        await _articlePageController.getArticle(context, widget.id);
+                        setState(() {});
+                      },
                       heroTag: "btn1", child: const Icon(Icons.edit)
                     )
                   ),
@@ -179,57 +205,53 @@ class _ArticlePage extends State<ArticlePage> {
                     )
                   )],
                   SizedBox(
-                      width: 500,
-                      child: Row(
-                        children: [
-                          SizedBox(
-                            height: 30,
-                            width: 200,
-                            child: TextField(
-                              controller: _commentsTextController,
-                              decoration: const InputDecoration(
-                                  border: OutlineInputBorder(),
-                                  hintText: 'Enter your comment here'
-                              ),
+                    width: 500,
+                    child: Row(
+                      children: [
+                        SizedBox(
+                          height: 30,
+                          width: 200,
+                          child: TextField(
+                            controller: _commentsTextController,
+                            decoration: const InputDecoration(
+                              border: OutlineInputBorder(),
+                              hintText: 'Enter your comment here'
                             ),
                           ),
-                          FloatingActionButton(
-                            onPressed: () => checkComment(),
-                            heroTag: "btn3",
-                            child: const Icon(Icons.comment),
-                          )
-                        ],
-                      )
-                  ),
-                  SizedBox(
-                    height: 200,
-                    child: ListView(
-                      padding: const EdgeInsets.all(8),
-                      children: <Widget>[
-                        Container(
-                          height: 50,
-                          color: Colors.amber[600],
-                          child: const Center(child: Text('Entry A')),
                         ),
-                        Container(
-                          height: 50,
-                          color: Colors.amber[500],
-                          child: const Center(child: Text('Entry B')),
-                        ),
-                        Container(
-                          height: 50,
-                          color: Colors.amber[100],
-                          child: const Center(child: Text('Entry C')),
-                        ),
+                        FloatingActionButton(
+                          onPressed: () => checkComment(),
+                          heroTag: "btn3",
+                          child: const Icon(Icons.comment),
+                        )
                       ],
+                    )
+                  ),
+                  (comments?.length == 0) ? const Text("there isn't any comments yet") : SizedBox(
+                    height: 200,
+                    child: ListView.builder(
+                      itemCount: comments.length,
+                      itemBuilder: (BuildContext context, int index) {
+                        var comment = comments[index];
+                        var comment_author = commentAuthors[index];
+                        var comment_id = comments[index]['comment_id'];
+                        return Container(
+                          margin: const EdgeInsets.all(10.0),
+                          child: Column(
+                            children: [
+                              Text(comment_author),
+                              Text(comment['content']),
+                              if (_articlePageController.comments['owner'][index]) ElevatedButton(onPressed: () => deleteComment(comment_id), child: const Text("Delete comment"))
+                            ],
+                          ),
+                        );
+                      },
                     ),
                   )
-
                 ]
               )
             ),
           ),
-
         ],
       ),
     );

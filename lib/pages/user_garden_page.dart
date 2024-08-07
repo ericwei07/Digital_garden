@@ -58,12 +58,14 @@ class _MyGardenContent extends State<MyGardenContent> {
                       int articleId = article["article_id"];
                       return ListTile(
                         title: Text(articleTitle),
-                        onTap: () {
+                        onTap: () async {
                           Navigator.push(
                             context, MaterialPageRoute(
                               builder: (context) => ArticlePage(title: articleTitle, id: articleId)
-                          ),
+                            ),
                           );
+                          await _userGardenPageController.getGardenList(context);
+                          setState(() {});
                         },
                       );
                     }
@@ -74,7 +76,7 @@ class _MyGardenContent extends State<MyGardenContent> {
               alignment: Alignment.bottomRight,
               child: FloatingActionButton(
                 heroTag: null,
-                onPressed: () {
+                onPressed: () async {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
@@ -83,6 +85,8 @@ class _MyGardenContent extends State<MyGardenContent> {
                       )
                     ),
                   );
+                  await _userGardenPageController.getGardenList(context);
+                  setState(() {});
                 },
                 child: const Icon(Icons.edit),
               ),
