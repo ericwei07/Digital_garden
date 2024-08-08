@@ -57,7 +57,7 @@ class _AllGardenContent extends State<AllGardenContent>{
                   return ListTile(
                     title: Text(articleTitle),
                     onTap: () async {
-                      Navigator.push(context,MaterialPageRoute(builder: (context) => ArticlePage(title: articleTitle, id: articleId)));
+                      await Navigator.push(context,MaterialPageRoute(builder: (context) => ArticlePage(title: articleTitle, id: articleId)));
                       await _otherGardenPageController.getGardenList(context);
                       setState(() {});
                     },

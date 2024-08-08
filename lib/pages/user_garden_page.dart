@@ -59,7 +59,7 @@ class _MyGardenContent extends State<MyGardenContent> {
                       return ListTile(
                         title: Text(articleTitle),
                         onTap: () async {
-                          Navigator.push(
+                          await Navigator.push(
                             context, MaterialPageRoute(
                               builder: (context) => ArticlePage(title: articleTitle, id: articleId)
                             ),
@@ -77,7 +77,7 @@ class _MyGardenContent extends State<MyGardenContent> {
               child: FloatingActionButton(
                 heroTag: null,
                 onPressed: () async {
-                  Navigator.push(
+                  await Navigator.push(
                     context,
                     MaterialPageRoute(
                       builder: (context) => const NewGardenPage(
@@ -88,7 +88,7 @@ class _MyGardenContent extends State<MyGardenContent> {
                   await _userGardenPageController.getGardenList(context);
                   setState(() {});
                 },
-                child: const Icon(Icons.edit),
+                child: const Icon(Icons.add),
               ),
             ),
           ],

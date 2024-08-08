@@ -194,7 +194,11 @@ class _MyLinks extends State<MyLinks> {
                     },
                     trailing: IconButton(
                       icon: const Icon(Icons.delete),
-                      onPressed: () => deleteLink(id),
+                      onPressed: () async {
+                        await deleteLink(id);
+                        await _LinksPageController.getLinkList(context);
+                        setState(() {});
+                      },
                     ),
                   );
                 },
@@ -206,7 +210,11 @@ class _MyLinks extends State<MyLinks> {
             alignment: Alignment.bottomRight,
             child: FloatingActionButton(
               child: Icon(Icons.add),
-              onPressed: () => showDialogue(),
+              onPressed: () async {
+                await showDialogue();
+                await _LinksPageController.getLinkList(context);
+                setState(() {});
+              },
             ),
           )
         ],

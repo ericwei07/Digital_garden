@@ -183,7 +183,7 @@ class _ArticlePage extends State<ArticlePage> {
                     alignment: Alignment.bottomRight,
                     child: FloatingActionButton(
                       onPressed: () async {
-                        Navigator.push(
+                        await Navigator.push(
                           context,
                           MaterialPageRoute(
                             builder: (context) =>  EditArticlePage(title: title, id: articleId, content: content)

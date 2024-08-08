@@ -156,7 +156,7 @@ class _MainPage extends State<MainPage> {
               NavigationRailDestination(
                 icon: Icon(Icons.explore_outlined),
                 selectedIcon: Icon(Icons.explore),
-                label: Text('Other gardens'),
+                label: Text('All articles'),
               ),
               NavigationRailDestination(
                 icon: Icon(Icons.link),
