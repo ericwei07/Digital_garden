@@ -37,7 +37,6 @@ class _ArticlePage extends State<ArticlePage> {
   }
 
   Future<void> deleteComment(id) async {
-
     Response response;
     response = await dio.delete('/comment/delete?id=$id');
     if (response.data['result'] == 1) {
@@ -47,7 +46,7 @@ class _ArticlePage extends State<ArticlePage> {
         ),
       );
     } else {
-      _articlePageController.getComments(context, widget.id);
+      await _articlePageController.getComments(context, widget.id);
       setState(() {});
     }
   }
@@ -120,6 +119,7 @@ class _ArticlePage extends State<ArticlePage> {
     } else {
       await _articlePageController.getComments(context, widget.id);
       setState(() {});
+      _commentsTextController.text = '';
     }
   }
 
@@ -189,7 +189,6 @@ class _ArticlePage extends State<ArticlePage> {
                             builder: (context) =>  EditArticlePage(title: title, id: articleId, content: content)
                           )
                         );
-                        _articlePageController.isLoading = true;
                         await _articlePageController.getArticle(context, widget.id);
                         setState(() {});
                       },
@@ -241,7 +240,12 @@ class _ArticlePage extends State<ArticlePage> {
                             children: [
                               Text(comment_author),
                               Text(comment['content']),
-                              if (_articlePageController.comments['owner'][index]) ElevatedButton(onPressed: () => deleteComment(comment_id), child: const Text("Delete comment"))
+                              if (_articlePageController.comments['owner'][index]) ElevatedButton(
+                                onPressed: () async{
+                                  await deleteComment(comment_id);
+                                },
+                                child: const Text("Delete comment")
+                              )
                             ],
                           ),
                         );
