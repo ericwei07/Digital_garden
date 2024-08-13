@@ -52,6 +52,33 @@ class _MyLinks extends State<MyLinks> {
     }
   }
 
+  Future<void> showDialogueLink(id) async {
+    return showDialog<void>(
+      context: context,
+      barrierDismissible: false,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text('Are you sure you want to delete this Link'),
+          actions: <Widget>[
+            TextButton(
+              child: const Text('Cancel'),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+            TextButton(
+              child: const Text('Delete'),
+              onPressed: () async {
+                Navigator.of(context).pop();
+                await deleteLink(id);
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
+
   Future<void> showDialogue() async {
     return showDialog<void>(
       context: context,
@@ -108,7 +135,7 @@ class _MyLinks extends State<MyLinks> {
             title: 'home page',
           ),
         ),
-            (Route<dynamic> route) => false,
+        (Route<dynamic> route) => false,
       );
       return;
     }
@@ -123,7 +150,7 @@ class _MyLinks extends State<MyLinks> {
             title: 'home page',
           ),
         ),
-            (Route<dynamic> route) => false,
+        (Route<dynamic> route) => false,
       );
     }
     final id = jwt.payload["id"];
@@ -163,62 +190,75 @@ class _MyLinks extends State<MyLinks> {
     final links = _LinksPageController.result['links'];
     final linkId = _LinksPageController.result['link_id'];
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-        title: Text(widget.title),
-      ),
-      body: _LinksPageController.isLoading ? const Align(
-        alignment: Alignment.center,
-        child: CircularProgressIndicator(),
-      ) : Stack(
-        children: [
-          Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget>[
-              (linkId?.length == 0) ? const Text("Your list is empty, try create a new one") : Expanded(child:
-              ListView.builder(
-                itemCount: links.length,
-                itemBuilder: (context, index) {
-                  String username = usernames[index];
-                  int id = linkId[index];
-                  int user_id = links[index];
-                  return ListTile(
-                    title: Text(username),
-                    onTap: () {
-                      Navigator.push(
-                        context, MaterialPageRoute(
-                          builder: (context) => LinkedUserPage(id: user_id, username: username)
-                      ),
-                      );
-                    },
-                    trailing: IconButton(
-                      icon: const Icon(Icons.delete),
-                      onPressed: () async {
-                        await deleteLink(id);
-                        await _LinksPageController.getLinkList(context);
-                        setState(() {});
-                      },
-                    ),
-                  );
-                },
+        appBar: AppBar(
+          backgroundColor: Theme.of(context).colorScheme.inversePrimary,
+          title: Text(widget.title),
+        ),
+        body: _LinksPageController.isLoading
+            ? const Align(
+                alignment: Alignment.center,
+                child: CircularProgressIndicator(),
               )
+            : Stack(
+                children: [
+                  Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: <Widget>[
+                      (linkId?.length == 0)
+                          ? Expanded(
+                            child: Align(
+                              alignment: Alignment.center,
+                              child: Text(
+                                "Your list is empty, try create a new one",
+                                style: DefaultTextStyle.of(context).style.apply(fontSizeFactor: 2.0),
+                              ),
+                            )
+
+                          )
+                          : Expanded(
+                              child: ListView.builder(
+                              itemCount: links.length,
+                              itemBuilder: (context, index) {
+                                String username = usernames[index];
+                                int id = linkId[index];
+                                int user_id = links[index];
+                                return ListTile(
+                                  title: Text(username),
+                                  onTap: () {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(builder: (context) => LinkedUserPage(id: user_id, username: username)),
+                                    );
+                                  },
+                                  trailing: IconButton(
+                                    icon: const Icon(Icons.delete),
+                                    onPressed: () async {
+                                      await showDialogueLink(id);
+                                      await _LinksPageController.getLinkList(context);
+                                      setState(() {});
+                                    },
+                                  ),
+                                );
+                              },
+                            ))
+                    ],
+                  ),
+                  Align(
+                      alignment: Alignment.bottomRight,
+                      child: Container(
+                        margin: const EdgeInsets.all(20),
+                        child: FloatingActionButton(
+                          child: Icon(Icons.add),
+                          onPressed: () async {
+                            await showDialogue();
+                            await _LinksPageController.getLinkList(context);
+                            setState(() {});
+                          },
+                        ),
+                      ))
+                ],
               )
-            ],
-          ),
-          Align(
-            alignment: Alignment.bottomRight,
-            child: FloatingActionButton(
-              child: Icon(Icons.add),
-              onPressed: () async {
-                await showDialogue();
-                await _LinksPageController.getLinkList(context);
-                setState(() {});
-              },
-            ),
-          )
-        ],
-      )
     );
   }
 }

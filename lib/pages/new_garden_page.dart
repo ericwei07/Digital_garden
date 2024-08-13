@@ -96,53 +96,52 @@ class _NewGardenPage extends State<NewGardenPage> {
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
         title: Text(widget.title),
       ),
-      body: Center(
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            Expanded(
-              child: Column(
-                children: <Widget>[
-                  Align(
-                    alignment: Alignment.topLeft,
-                    child: SizedBox(
-                      height: 50,
-                      child: TextField(
-                        autofocus: true,
-                        textAlign: TextAlign.left,
-                        textAlignVertical: TextAlignVertical.top,
-                        controller: _title,
-                        keyboardType: TextInputType.multiline,
-                        maxLines: null,
-                        decoration: const InputDecoration(border: InputBorder.none, labelText: 'Title', hintText: 'Write the article title here'),
-                      ),
-                    ),
+      body: Stack(
+        children: [
+          Container(
+            margin: EdgeInsets.only(left: 30, right: 30, top: 10),
+            child: Column(
+              children: [
+                SizedBox(
+                  height: 50,
+                  width: MediaQuery.sizeOf(context).width,
+                  child: TextField(
+                    autofocus: true,
+                    textAlign: TextAlign.left,
+                    textAlignVertical: TextAlignVertical.top,
+                    controller: _title,
+                    keyboardType: TextInputType.multiline,
+                    maxLines: null,
+                    decoration: const InputDecoration(border: InputBorder.none, labelText: 'Title', hintText: 'Write the article title here'),
                   ),
-                  Align(
-                    alignment: Alignment.topLeft,
-                    child: TextField(
-                      autofocus: true,
-                      textAlign: TextAlign.left,
-                      textAlignVertical: TextAlignVertical.top,
-                      controller: _content,
-                      keyboardType: TextInputType.multiline,
-                      maxLines: null,
-                      decoration: const InputDecoration(border: InputBorder.none, labelText: 'Write your garden here', hintText: 'Write your garden here'),
-                    ),
-                  ),
-                ],
-              ),
+                ),
+                Expanded(
+                  child:  TextField(
+                    autofocus: true,
+                    textAlign: TextAlign.left,
+                    textAlignVertical: TextAlignVertical.top,
+                    controller: _content,
+                    keyboardType: TextInputType.multiline,
+                    maxLines: null,
+                    decoration: const InputDecoration(border: InputBorder.none, labelText: 'Write your article here', hintText: 'Write your article here'),
+                  )
+                )
+              ]
             ),
-            Align(
-              alignment: Alignment.bottomRight,
+          ),
+
+          Align(
+            alignment: Alignment.bottomRight,
+            child: Container(
+              margin: const EdgeInsets.all(20),
               child: FloatingActionButton(
                 onPressed: () => checkInput(),
                 child: const Icon(Icons.save),
               ),
-            ),
-          ],
-        ),
-      ),
+            )
+          )
+        ],
+      )
     );
   }
 }
