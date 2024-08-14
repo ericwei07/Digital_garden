@@ -52,8 +52,8 @@ class _MyLinks extends State<MyLinks> {
     }
   }
 
-  Future<void> showDialogueLink(id) async {
-    return await showDialog<void>(
+  Future<bool?> showDialogueLink(id) async {
+    return await showDialog<bool>(
       context: context,
       barrierDismissible: false,
       builder: (BuildContext context) {
@@ -63,16 +63,13 @@ class _MyLinks extends State<MyLinks> {
             TextButton(
               child: const Text('Cancel'),
               onPressed: () {
-                Navigator.of(context).pop();
+                Navigator.of(context).pop(false);
               },
             ),
             TextButton(
               child: const Text('Delete'),
-              onPressed: () async {
-                Navigator.of(context).pop();
-                await deleteLink(id);
-                await _LinksPageController.getLinkList(context);
-                setState(() {});
+              onPressed: () {
+                Navigator.of(context).pop(true);
               },
             ),
           ],
@@ -236,8 +233,12 @@ class _MyLinks extends State<MyLinks> {
                                   trailing: IconButton(
                                     icon: const Icon(Icons.delete),
                                     onPressed: () async {
-                                      await showDialogueLink(id);
-
+                                      final result = await showDialogueLink(id);
+                                      if (result!) {
+                                        await deleteLink(id);
+                                        await _LinksPageController.getLinkList(context);
+                                        setState(() {});
+                                      }
                                     },
                                   ),
                                 );
