@@ -224,99 +224,117 @@ class _ArticlePage extends State<ArticlePage> {
           ? const Center(child: CircularProgressIndicator())
           : Stack(
         children: [
-          CustomScrollView(
-            slivers: [
-              SliverToBoxAdapter(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Container(
-                      width: MediaQuery.sizeOf(context).width,
-                      margin: const EdgeInsets.only(left: 30, right: 30, top: 15),
-                      child: Text(
-                        title,
-                        textAlign: TextAlign.center,
-                        // style: DefaultTextStyle.of(context).style.apply(fontSizeFactor: 2.0),
-                      ),
-                    ),
-                    Container(
-                      width: MediaQuery.sizeOf(context).width,
-                      margin: EdgeInsets.only(left: 80, right: 80),
-                      child: Text(
-                        content,
-                        textAlign: TextAlign.left,
-                      ),
-                    ),
-                    Container(
-                      width: MediaQuery.sizeOf(context).width,
-                      margin: EdgeInsets.only(left: 80, right: 80),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          const SizedBox(height: 5,),
-                          Text(datePublish),
-                          Text("Article ID: $articleId"),
-                          Text("Author: $author"),
-                        ],
-                      ),
-                    ),
-                    Row(
-                      children: [
-                        SizedBox(
-                          height: 30,
-                          width: 200,
-                          child: TextField(
-                            controller: _commentsTextController,
-                            decoration: const InputDecoration(
-                              border: OutlineInputBorder(),
-                              hintText: 'Enter your comment here',
-                            ),
-                          ),
-                        ),
-                        FloatingActionButton(
-                          onPressed: () => checkComment(),
-                          heroTag: "btn3",
-                          child: const Icon(Icons.comment),
-                        ),
-                      ],
-                    ),
-                  ],
-                ),
-              ),
-
-              if (comments?.isNotEmpty ?? false)
-                SliverList(
-                  delegate: SliverChildBuilderDelegate(
-                      (BuildContext context, int index) {
-                        var comment = comments[index];
-                        var comment_author = commentAuthors[index];
-                        var comment_id = comments[index]['comment_id'];
-                        return Container(
-                          margin: const EdgeInsets.all(10.0),
+          Column(
+            children: [
+              Expanded(
+                  child: Container(
+                    margin: const EdgeInsets.only(left: 90, right: 90, top: 10),
+                    child: CustomScrollView(
+                      slivers: [
+                        SliverToBoxAdapter(
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Text(comment_author),
-                              Text(comment['content']),
-                              if (_articlePageController.comments['owner'][index])
-                              ElevatedButton(
-                                onPressed: () async {
-                                  await showDialogueComment(comment_id);
-                                },
-                                child: const Text("Delete comment"),
+                              SizedBox(
+                                width: MediaQuery.sizeOf(context).width,
+                                child: Text(
+                                  title,
+                                  textAlign: TextAlign.center,
+                                ),
                               ),
+                              SizedBox(
+                                width: MediaQuery.sizeOf(context).width,
+                                child: Text(
+                                  content,
+                                  textAlign: TextAlign.left,
+                                ),
+                              ),
+                              SizedBox(
+                                width: MediaQuery.sizeOf(context).width,
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    const SizedBox(height: 5,),
+                                    Text(datePublish),
+                                    Text("Article ID: $articleId"),
+                                    Text("Author: $author"),
+                                  ],
+                                ),
+                              ),
+
+                              Container(
+                                height: 50,
+                                width: MediaQuery.sizeOf(context).width,
+                                padding: const EdgeInsets.only(top: 10),
+                                child: TextField(
+                                  controller: _commentsTextController,
+                                  decoration: const InputDecoration(
+                                    border: OutlineInputBorder(),
+                                    hintText: 'Enter your comment here',
+                                  ),
+                                ),
+                              ),
+                              Container(
+                                height: 30,
+                                width: MediaQuery.sizeOf(context).width,
+                                decoration: BoxDecoration(
+                                    border: Border.all(color: Colors.black38)
+                                ),
+                                child: TextButton(
+                                  onPressed: () => checkComment(),
+                                  child: const Text("Comment"),
+                                ),
+                              )
                             ],
                           ),
-                        );
-                      },
-                    childCount: comments.length,
-                    ),
-                )
+                        ),
 
-              else
-                const SliverToBoxAdapter(
-                  child: Text("There aren't any comments yet"),
-                ),
+                        if (comments?.isNotEmpty ?? false)
+                          SliverList(
+                            delegate: SliverChildBuilderDelegate(
+                                  (BuildContext context, int index) {
+                                var comment = comments[index];
+                                var comment_author = commentAuthors[index];
+                                var comment_id = comments[index]['comment_id'];
+                                return Container(
+                                  margin: const EdgeInsets.all(10.0),
+                                  child: Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      Text(comment['content']),
+                                      Text("Author: $comment_author"),
+                                      if (_articlePageController.comments['owner'][index])
+                                        Container(
+                                          width: MediaQuery.sizeOf(context).width,
+                                          margin: const EdgeInsets.only(left: 50, right: 50),
+                                          child: ElevatedButton(
+                                            onPressed: () async {
+                                              await showDialogueComment(comment_id);
+                                            },
+                                            child: const Text("Delete comment"),
+                                          ),
+                                        )
+                                    ],
+                                  ),
+                                );
+                              },
+                              childCount: comments.length,
+                            ),
+                          )
+
+                        else
+                          const SliverToBoxAdapter(
+                            child: Align(
+                              alignment: Alignment.center,
+                              child: Text(
+                                "there aren't any comments yet",
+                              ),
+                            ),
+                          ),
+                      ],
+                    ),
+                  )
+              ),
             ],
           ),
           if (articleOwner) Container(

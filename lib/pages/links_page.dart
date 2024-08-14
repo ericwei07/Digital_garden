@@ -53,7 +53,7 @@ class _MyLinks extends State<MyLinks> {
   }
 
   Future<void> showDialogueLink(id) async {
-    return showDialog<void>(
+    return await showDialog<void>(
       context: context,
       barrierDismissible: false,
       builder: (BuildContext context) {
