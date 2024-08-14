@@ -179,6 +179,7 @@ class _MyLinks extends State<MyLinks> {
           content: Text('link successfully added'),
         ),
       );
+      _addLinkUsername.text = '';
       Navigator.pop(context);
     }
   }
