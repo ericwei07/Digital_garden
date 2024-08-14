@@ -71,6 +71,8 @@ class _MyLinks extends State<MyLinks> {
               onPressed: () async {
                 Navigator.of(context).pop();
                 await deleteLink(id);
+                await _LinksPageController.getLinkList(context);
+                setState(() {});
               },
             ),
           ],
@@ -235,8 +237,7 @@ class _MyLinks extends State<MyLinks> {
                                     icon: const Icon(Icons.delete),
                                     onPressed: () async {
                                       await showDialogueLink(id);
-                                      await _LinksPageController.getLinkList(context);
-                                      setState(() {});
+
                                     },
                                   ),
                                 );
