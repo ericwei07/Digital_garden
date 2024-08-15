@@ -43,64 +43,63 @@ class _MyGardenContent extends State<MyGardenContent> {
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
         title: Text(gardenName),
       ),
-      body: _userGardenPageController.isLoading
-          ? const CircularProgressIndicator()
-          : Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
-                Expanded(
-                  child: (articles?.length == 0)
-                      ? Expanded(
-                        child: Align(
-                          alignment: Alignment.center,
-                          child: Text(
-                            "Your garden is empty, try create some articles",
-                            style: DefaultTextStyle.of(context).style.apply(fontSizeFactor: 2.0),
-                          ),
-                        )
-                      )
-                      : ListView.builder(
-                          itemCount: articles.length,
-                          itemBuilder: (context, index) {
-                            var article = articles[index];
-                            String articleTitle = article["title"];
-                            int articleId = article["article_id"];
-                            return ListTile(
-                              title: Text(articleTitle),
-                              onTap: () async {
-                                await Navigator.push(
-                                  context,
-                                  MaterialPageRoute(builder: (context) => ArticlePage(title: articleTitle, id: articleId)),
-                                );
-                                await _userGardenPageController.getGardenList(context);
-                                setState(() {});
-                              },
-                            );
-                          }),
+      body: _userGardenPageController.isLoading ? const CircularProgressIndicator() : Column(
+        mainAxisAlignment: MainAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: <Widget>[
+          Expanded(
+            child: (articles?.length == 0) ? Expanded(
+              child: Align(
+                alignment: Alignment.center,
+                child: Text(
+                  "Your garden is empty, try create some articles",
+                  style: DefaultTextStyle.of(context).style.apply(fontSizeFactor: 2.0),
                 ),
-                Align(
-                    alignment: Alignment.bottomRight,
-                    child: Container(
-                      margin: EdgeInsets.all(20),
-                      child: FloatingActionButton(
-                        heroTag: null,
-                        onPressed: () async {
-                          await Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => const NewGardenPage(
-                                      title: 'digital garden',
-                                    )),
-                          );
-                          await _userGardenPageController.getGardenList(context);
-                          setState(() {});
-                        },
-                        child: const Icon(Icons.add),
-                      ),
-                    )),
-              ],
+              )
+            ) : ListView.builder(
+              itemCount: articles.length,
+                itemBuilder: (context, index) {
+                var article = articles[index];
+                String articleTitle = article["title"];
+                int articleId = article["article_id"];
+                return ListTile(
+                  title: Text(articleTitle),
+                  onTap: () async {
+                    await Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => ArticlePage(title: articleTitle, id: articleId)),
+                    );
+                    await _userGardenPageController.getGardenList(context);
+                    setState(() {});
+                    },
+                );
+              }
             ),
+          ),
+          Align(
+            alignment: Alignment.bottomRight,
+            child: Container(
+              margin: EdgeInsets.all(20),
+              child: FloatingActionButton(
+                heroTag: null,
+                onPressed: () async {
+                  await Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const NewGardenPage(
+                        title: 'digital garden',
+                      )
+                    ),
+                  );
+                  await _userGardenPageController.getGardenList(context);
+                  setState(() {});
+                },
+                child: const Icon(Icons.add),
+              ),
+            )
+          ),
+        ],
+      ),
     );
   }
 }

@@ -190,78 +190,78 @@ class _MyLinks extends State<MyLinks> {
     final links = _LinksPageController.result['links'];
     final linkId = _LinksPageController.result['link_id'];
     return Scaffold(
-        appBar: AppBar(
-          backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-          title: Text(widget.title),
-        ),
-        body: _LinksPageController.isLoading
-            ? const Align(
-                alignment: Alignment.center,
-                child: CircularProgressIndicator(),
-              )
-            : Stack(
-                children: [
-                  Column(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: <Widget>[
-                      (linkId?.length == 0)
-                          ? Expanded(
-                            child: Align(
-                              alignment: Alignment.center,
-                              child: Text(
-                                "Your list is empty, try create a new one",
-                                style: DefaultTextStyle.of(context).style.apply(fontSizeFactor: 2.0),
-                              ),
-                            )
-
-                          )
-                          : Expanded(
-                              child: ListView.builder(
-                              itemCount: links.length,
-                              itemBuilder: (context, index) {
-                                String username = usernames[index];
-                                int id = linkId[index];
-                                int user_id = links[index];
-                                return ListTile(
-                                  title: Text(username),
-                                  onTap: () {
-                                    Navigator.push(
-                                      context,
-                                      MaterialPageRoute(builder: (context) => LinkedUserPage(id: user_id, username: username)),
-                                    );
-                                  },
-                                  trailing: IconButton(
-                                    icon: const Icon(Icons.delete),
-                                    onPressed: () async {
-                                      final result = await showDialogueLink(id);
-                                      if (result!) {
-                                        await deleteLink(id);
-                                        await _LinksPageController.getLinkList(context);
-                                        setState(() {});
-                                      }
-                                    },
-                                  ),
-                                );
-                              },
-                            ))
-                    ],
+      appBar: AppBar(
+        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
+        title: Text(widget.title),
+      ),
+      body: _LinksPageController.isLoading
+          ? const Align(
+        alignment: Alignment.center,
+        child: CircularProgressIndicator(),
+      )
+          : Stack(
+        children: [
+          Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              (linkId?.length == 0) ? Expanded(
+                child: Align(
+                  alignment: Alignment.center,
+                  child: Text(
+                    "Your list is empty, try create a new one",
+                    style: DefaultTextStyle.of(context).style.apply(fontSizeFactor: 2.0),
                   ),
-                  Align(
-                      alignment: Alignment.bottomRight,
-                      child: Container(
-                        margin: const EdgeInsets.all(20),
-                        child: FloatingActionButton(
-                          child: Icon(Icons.add),
-                          onPressed: () async {
-                            await showDialogue();
+                )
+              )
+                : Expanded(
+                child: ListView.builder(
+                  itemCount: links.length,
+                  itemBuilder: (context, index) {
+                    String username = usernames[index];
+                    int id = linkId[index];
+                    int user_id = links[index];
+                    return ListTile(
+                      title: Text(username),
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (context) => LinkedUserPage(id: user_id, username: username)),
+                        );
+                        },
+                      trailing: IconButton(
+                        icon: const Icon(Icons.delete),
+                        onPressed: () async {
+                          final result = await showDialogueLink(id);
+                          if (result!) {
+                            await deleteLink(id);
                             await _LinksPageController.getLinkList(context);
                             setState(() {});
-                          },
-                        ),
-                      ))
-                ],
+                          }
+                        },
+                      ),
+                    );
+                  },
+                )
               )
+            ],
+          ),
+          Align(
+            alignment: Alignment.bottomRight,
+            child: Container(
+              margin: const EdgeInsets.all(20),
+              child: FloatingActionButton(
+                child: Icon(Icons.add),
+                onPressed: () async {
+                  await showDialogue();
+                  await _LinksPageController.getLinkList(context);
+                  setState(() {});
+                },
+              ),
+            )
+          )
+        ],
+      )
     );
   }
 }

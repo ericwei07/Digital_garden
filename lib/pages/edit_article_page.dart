@@ -108,60 +108,57 @@ class _EditArticlePage extends State<EditArticlePage> {
     return PopScope(
       canPop: false,
       onPopInvoked: checkIfEmpty,
-        child:Scaffold(
-            appBar: AppBar(
-              backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-              title: const Text("Edit article"),
-            ),
-            body:Stack(
-              children: [
-                Container(
-                  margin: const EdgeInsets.only(left: 30, right: 30, top: 10),
-                  child: Column(
-                      children: [
-                        SizedBox(
-                          height: 50,
-                          width: MediaQuery.sizeOf(context).width,
-                          child: TextField(
-                            autofocus: true,
-                            textAlign: TextAlign.left,
-                            textAlignVertical: TextAlignVertical.top,
-                            controller: _title,
-                            keyboardType: TextInputType.multiline,
-                            maxLines: null,
-                            decoration: const InputDecoration(border: InputBorder.none, labelText: 'Title', hintText: 'Write the article title here'),
-                          ),
-                        ),
-                        Expanded(
-                            child:  TextField(
-                              autofocus: true,
-                              textAlign: TextAlign.left,
-                              textAlignVertical: TextAlignVertical.top,
-                              controller: _content,
-                              keyboardType: TextInputType.multiline,
-                              maxLines: null,
-                              decoration: const InputDecoration(border: InputBorder.none, labelText: 'Write your article here', hintText: 'Write your article here'),
-                            )
-                        )
-                      ]
-                  ),
-                ),
-
-                Align(
-                    alignment: Alignment.bottomRight,
-                    child: Container(
-                      margin: const EdgeInsets.all(20),
-                      child: FloatingActionButton(
-                        onPressed: () => checkInput(),
-                        child: const Icon(Icons.save),
-                      ),
-                    )
-                )
-              ],
-            )
+      child: Scaffold(
+        appBar: AppBar(
+          backgroundColor: Theme.of(context).colorScheme.inversePrimary,
+          title: const Text("Edit article"),
         ),
+        body: Stack(
+          children: [
+            Container(
+              margin: const EdgeInsets.only(left: 30, right: 30, top: 10),
+              child: Column(
+                children: [
+                  SizedBox(
+                    height: 50,
+                    width: MediaQuery.sizeOf(context).width,
+                    child: TextField(
+                      autofocus: true,
+                      textAlign: TextAlign.left,
+                      textAlignVertical: TextAlignVertical.top,
+                      controller: _title,
+                      keyboardType: TextInputType.multiline,
+                      maxLines: null,
+                      decoration: const InputDecoration(border: InputBorder.none, labelText: 'Title', hintText: 'Write the article title here'),
+                    ),
+                  ),
+                  Expanded(
+                    child: TextField(
+                      autofocus: true,
+                      textAlign: TextAlign.left,
+                      textAlignVertical: TextAlignVertical.top,
+                      controller: _content,
+                      keyboardType: TextInputType.multiline,
+                      maxLines: null,
+                      decoration: const InputDecoration(border: InputBorder.none, labelText: 'Write your article here', hintText: 'Write your article here'),
+                    )
+                  )
+                ]
+              ),
+            ),
+            Align(
+              alignment: Alignment.bottomRight,
+              child: Container(
+                margin: const EdgeInsets.all(20),
+                child: FloatingActionButton(
+                  onPressed: () => checkInput(),
+                  child: const Icon(Icons.save),
+                ),
+              )
+            )
+          ],
+        )
+      ),
     );
-
-
   }
 }

@@ -43,9 +43,10 @@ class _LogInPage extends State<LogInPage> {
       Navigator.pushAndRemoveUntil(
         context,
         MaterialPageRoute(
-            builder: (context) => const MainPage(
-                  title: 'digital garden',
-                )),
+          builder: (context) => const MainPage(
+            title: 'digital garden',
+          )
+        ),
         (Route<dynamic> route) => false,
       );
     }
@@ -131,12 +132,12 @@ class _LogInPage extends State<LogInPage> {
               children: <Widget>[
                 const Text("Don't have an account? click"),
                 TextButton(
-                    onPressed: () {
-                      Navigator.push(context, MaterialPageRoute(builder: (context) {
-                        return const SignUpPage(title: 'Sign Up');
-                      }));
-                    },
-                    child: const Text('Here'))
+                  onPressed: () {
+                    Navigator.push(context, MaterialPageRoute(builder: (context) {
+                      return const SignUpPage(title: 'Sign Up');
+                    }));
+                  },
+                  child: const Text('Here'))
               ],
             ),
           ],
